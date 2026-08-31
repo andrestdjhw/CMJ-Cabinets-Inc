@@ -1,2 +1,152 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+/* ===== Tokens de marca CMJ Cabinets =====
+   Base pedida por el cliente: bronceados y negros uniformes + blanco/negro.
+   tan-2 = bronceado profundo con contraste AA sobre blanco (texto/hovers).
+*/
+@theme {
+  --color-ink: #1a1a1a;      /* negro carbón — topbar, footer, bandas fuertes */
+  --color-tan: #8b6b3d;      /* bronceado — CTAs, acentos */
+  --color-tan-2: #6e5330;    /* bronceado profundo AA — hovers y texto sobre blanco */
+  --color-cream: #f2ede4;    /* beige claro — fondos alternos */
+  --color-paper: #ffffff;    /* base */
+}
+
+/* ===== CTA animado (base Uiverse.io by Nawsome, adaptado a tokens CMJ) =====
+   Marco que se dibuja en tinta + roll del label.
+   Estructura: <a.cmj-cta> <span.cmj-cta__frame/> <p.cmj-cta__label data-title data-text/> </a>
+   El display/tamaño/colores base van en utilidades Tailwind en el markup;
+   aquí solo vive la animación (así `hidden lg:flex` no pelea con la clase). */
+
+.cmj-cta {
+  letter-spacing: 1px;
+  transition: background-color 0.3s ease;
+}
+
+/* Líneas horizontales (top desde la derecha, bottom desde la izquierda) */
+.cmj-cta::before,
+.cmj-cta::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: var(--color-ink);
+  transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
+}
+.cmj-cta::before {
+  right: 0;
+  top: 0;
+  transition: all 0.5s cubic-bezier(0.35, 0.1, 0.25, 1);
+}
+.cmj-cta::after {
+  left: 0;
+  bottom: 0;
+}
+
+/* Líneas verticales */
+.cmj-cta__frame {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.cmj-cta__frame::before,
+.cmj-cta__frame::after {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 0;
+  background-color: var(--color-ink);
+  transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
+}
+.cmj-cta__frame::before {
+  right: 0;
+  top: 0;
+  transition: all 0.5s cubic-bezier(0.35, 0.1, 0.25, 1);
+}
+.cmj-cta__frame::after {
+  left: 0;
+  bottom: 0;
+}
+
+/* Label con roll: data-title sale hacia arriba rotando, data-text entra desde abajo */
+.cmj-cta__label {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+}
+.cmj-cta__label::before,
+.cmj-cta__label::after {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  transition: all 0.4s cubic-bezier(0.35, 0.1, 0.25, 1);
+  z-index: 1;
+}
+.cmj-cta__label::before {
+  content: attr(data-title);
+  top: 50%;
+  transform: translateY(-50%);
+}
+.cmj-cta__label::after {
+  content: attr(data-text);
+  top: 150%;
+  color: var(--color-cream);
+}
+
+/* Hover / focus */
+.cmj-cta:hover::before,
+.cmj-cta:focus-visible::before,
+.cmj-cta:hover::after,
+.cmj-cta:focus-visible::after {
+  width: 100%;
+}
+.cmj-cta:hover .cmj-cta__frame::before,
+.cmj-cta:focus-visible .cmj-cta__frame::before,
+.cmj-cta:hover .cmj-cta__frame::after,
+.cmj-cta:focus-visible .cmj-cta__frame::after {
+  height: 100%;
+}
+.cmj-cta:hover .cmj-cta__label::before,
+.cmj-cta:focus-visible .cmj-cta__label::before {
+  top: -50%;
+  transform: rotate(5deg);
+}
+.cmj-cta:hover .cmj-cta__label::after,
+.cmj-cta:focus-visible .cmj-cta__label::after {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.cmj-cta:hover {
+  background-color: var(--color-tan-2);
+}
+.cmj-cta:focus {
+  outline: 0;
+}
+.cmj-cta:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* Reduced motion: sin roll ni dibujo de marco */
+@media (prefers-reduced-motion: reduce) {
+  .cmj-cta,
+  .cmj-cta::before,
+  .cmj-cta::after,
+  .cmj-cta__frame::before,
+  .cmj-cta__frame::after,
+  .cmj-cta__label::before,
+  .cmj-cta__label::after {
+    transition: none;
+  }
+  .cmj-cta:hover .cmj-cta__label::before,
+  .cmj-cta:focus-visible .cmj-cta__label::before {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .cmj-cta:hover .cmj-cta__label::after,
+  .cmj-cta:focus-visible .cmj-cta__label::after {
+    display: none;
+  }
+}
