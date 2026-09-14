@@ -2,15 +2,235 @@
 @plugin "@tailwindcss/typography";
 
 /* ===== Tokens de marca CMJ Cabinets =====
-   Base pedida por el cliente: bronceados y negros uniformes + blanco/negro.
-   tan-2 = bronceado profundo con contraste AA sobre blanco (texto/hovers).
+   Paleta OFICIAL actualizada por el cliente ("Paleta de Color.pdf", sistema
+   visual aprobado) — 5 maderas + 1 metal, no colores elegidos por gusto:
+   cada uno nombra un material real del taller. Mapeada a los mismos nombres
+   semánticos que ya usa todo el sitio (mismos que la paleta anterior, ya
+   aproximada a mano) — así el cambio queda en este único archivo, sin tocar
+   Navbar/Footer/templates:
+     ink    ← Nogal          (#5A3A26) — antes #4D3026
+     tan    ← Latón          (#A2957A) — antes #8F7F5E (el único metal de la paleta)
+     tan-2  ← Roble Ahumado  (#7A6B60) — antes #635655
+     cream  ← Arce           (#E9E3D6) — antes #E5DAD1
+     silver ← Fresno         (#A29A93) — antes #ACA8A3
+     ebano  ← Ébano          (#0D0D0C) — antes #000000 (negro puro; la paleta
+              oficial es un negro ligeramente cálido, no 100% neutro)
+     paper  se mantiene blanco (no es un material del taller, es "el papel")
+   El token --color-laton que existía antes (un tono aparte para el degradado
+   del topbar) se eliminó: ahora que el cliente nombró oficialmente "Latón" =
+   --color-tan, tener los dos por separado hubiera dejado dos "Latones" con
+   hex distinto. El degradado del topbar (Navbar.js) pasa de tan→laton a
+   tan→tan-2 (Latón → Roble Ahumado): dos tonos reales de la paleta en vez de
+   uno inventado.
+   gold NO viene en la paleta del cliente — se mantiene a pedido explícito, solo para
+   el marco animado de los botones CTA.
 */
 @theme {
-  --color-ink: #1a1a1a;      /* negro carbón — topbar, footer, bandas fuertes */
-  --color-tan: #8b6b3d;      /* bronceado — CTAs, acentos */
-  --color-tan-2: #6e5330;    /* bronceado profundo AA — hovers y texto sobre blanco */
-  --color-cream: #f2ede4;    /* beige claro — fondos alternos */
+  --color-ink: #5a3a26;      /* Nogal — topbar, footer, bandas fuertes, CTAs */
+  --color-tan: #a2957a;      /* Latón — el metal de la paleta: CTAs, acentos, topbar */
+  --color-tan-2: #7a6b60;    /* Roble Ahumado — hovers y texto sobre blanco (AA: ~5.1:1) */
+  --color-cream: #e9e3d6;    /* Arce — fondos alternos */
   --color-paper: #ffffff;    /* base */
+  --color-silver: #a29a93;   /* Fresno — bordes/texto muted */
+  --color-gold: #e0b74e;     /* dorado brillante — marco animado del CTA (fuera de la paleta, a pedido del cliente) */
+  --color-ebano: #0d0d0c;    /* Ébano — overlay del hero, hover de todos los CTA (.cmj-cta:hover),
+                                 bandas más oscuras (Stats Band, cintas con video). */
+
+  /* Tipografía institucional (brief 5.2). Cargada vía Google Fonts en functions.php.
+     Miranda Sans para todo el sitio — titulares (--font-display, H1/H2 y los
+     usos sueltos de la clase font-display: Footer.js, .cmj-method__num) y
+     cuerpo (--font-sans, heredado desde <body>). Antes los titulares usaban
+     Syncopate, ahora unificado en una sola tipografía a pedido del cliente.
+     Miranda Sans solo trae el peso Regular (400) en Google Fonts — cualquier
+     negrita (font-bold) sobre ella queda como "faux bold" del navegador. */
+  --font-display: "Miranda Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Miranda Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* H1/H2 en Miranda Sans (--font-display); el resto del sitio la hereda igual desde <body>.
+   text-wrap: balance (pedido explícito, "títulos que no queden disparejos"):
+   sin esto, un h1/h2 que rompe a 2+ líneas llena cada línea al máximo y
+   puede dejar una sola palabra huérfana en la última ("...We Build It" /
+   "All") — el navegador reparte el texto entre líneas de largo más parejo.
+   Progressive enhancement puro (Chrome/Edge/Firefox 121+, Safari 17.5+): en
+   navegadores sin soporte el valor se ignora y el título sigue con el wrap
+   normal de siempre, sin fallback necesario. Global acá (no una clase
+   Tailwind repetida en cada template) porque aplica a TODOS los h1/h2 del
+   sitio por igual. */
+@layer base {
+  html {
+    /* El rebote del topbar al hacer scroll (Navbar.js) venía de "scroll
+       anchoring": el topbar se esconde encogiendo su alto (max-height), eso
+       corre todo lo de abajo hacia arriba en el documento, y el navegador
+       compensa solo ajustando scrollY para que lo que se veía en pantalla
+       no "salte" — ese ajuste dispara un evento de scroll nativo, que
+       Navbar.js lee como si el usuario hubiera scrolleado, y puede volver a
+       decidir mostrar/ocultar el topbar, que vuelve a encoger/crecer el
+       documento, que vuelve a compensar... un loop que se sentía como que
+       "rebotaba" sin parar, peor en scroll lento porque ahí es más fácil
+       quedar oscilando cerca del umbral de mostrar/ocultar.
+       Antes había overflow-anchor:none solo en el <header> (Navbar.js), pero
+       eso únicamente saca a los HIJOS del header de la lista de candidatos a
+       ser el "anchor" — no evita que el navegador compense por el cambio de
+       alto del header en sí, que es lo que de verdad dispara el loop. La
+       propiedad hay que apagarla en el elemento que hace scroll (acá, el
+       documento completo) para que el navegador deje de intentar compensar
+       ese tipo de cambios de layout en absoluto. Sin scroll anchoring en
+       ningún lado del sitio no se pierde nada perceptible (existe
+       específicamente para casos como listas que cargan contenido arriba
+       del viewport mientras se lee más abajo, que no es un patrón que
+       usemos). */
+    overflow-anchor: none;
+  }
+  body {
+    font-family: var(--font-sans);
+  }
+  h1,
+  h2 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+}
+
+/* ===== Reveal global al hacer scroll =====
+   .cmj-reveal / .is-visible: fade + slide-up aplicado por JS (ver setupScrollReveal
+   en src/index.js, corre en TODAS las páginas porque vive en el bundle compartido)
+   a cada <section> del sitio, excepto el hero (ya tiene sus propias animaciones:
+   slideshow, marquee, form levitando — sumarle esto se sentiría redundante).
+   El estado final usa transform:none (no translateY(0)) a propósito: un
+   translateY(0) sigue siendo "un transform" para efectos de CSS y convertiría
+   cada sección en containing block de sus descendientes position:fixed
+   permanentemente — con transform:none la sección vuelve a ser neutra apenas
+   termina la transición. */
+.cmj-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.cmj-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmj-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ===== Lista "método" con spine (sección "Proceso" de Home) =====
+   Inspirado en la sección "How We Work" de eclandscapingutah.com — revisé su
+   HTML/CSS compilado directo: lista numerada con línea vertical ("spine") que
+   se va rellenando, número fantasma (solo contorno) que se llena de color de
+   marca al activarse, ícono que hace lo mismo, y una foto que hace crossfade
+   según el paso activo. Mapeado a nuestros tokens (su ember → nuestro tan) y a
+   nuestro contenido (3 pasos con fotos reales, no 5) en vez de copiar su
+   color/copy. El estado "activo" (.is-active / .is-current) lo calcula el
+   <script> al final de home-template.php con un scrollspy simple (qué fila
+   está más cerca del centro del viewport), no vive en el bundle compartido —
+   es específico de esta sección, igual que el resto de scripts inline por
+   template de este sitio. */
+.cmj-method__num {
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--color-paper) 30%, transparent);
+  transition: color 0.5s ease;
+}
+.cmj-method__row.is-active .cmj-method__num {
+  /* paper, no tan: el fondo de la sección pasó de ink/ebano (oscuro) a un
+     degradado Roble Ahumado → Fresno (tonos medios) — tan es de la misma
+     familia tonal que esos dos, así que el contraste entre "activo" y
+     "fondo" casi desaparecía (~1-2:1). Paper se mantiene legible en toda
+     la sección (ver el scrim bg-ebano/30 en home-template.php). */
+  color: var(--color-paper);
+  -webkit-text-stroke-color: transparent;
+}
+.cmj-method__icon {
+  transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+}
+.cmj-method__row.is-active .cmj-method__icon {
+  border-color: var(--color-paper);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+.cmj-method__spine-fill {
+  transform-origin: top;
+  transform: scaleY(0);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cmj-method__progress-bar {
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cmj-method__shot {
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.cmj-method__shot.is-current {
+  opacity: 1;
+  transform: scale(1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmj-method__num,
+  .cmj-method__icon,
+  .cmj-method__spine-fill,
+  .cmj-method__progress-bar,
+  .cmj-method__shot {
+    transition: none;
+  }
+}
+
+/* ===== Cards del mega menu: tilt 3D + sombra al hover =====
+   Inspirado en cliconstructions.com (mismo patrón de build del tema, wp-scripts +
+   Tailwind) — revisé su CSS compilado directo: .cli-mega__grid{perspective:1400px}
+   + .cli-mega-card{transform-style:preserve-3d; hover: translateY(-8px) scale(1.02)
+   rotateX(4deg) + box-shadow grande}, mapeado a nuestros tokens (su rojo de marca
+   → nuestro tan) en vez de copiar su color. El perspective va en el contenedor
+   .cmj-mega-grid (ver Navbar.js), no en cada card individual — si no, cada una
+   "mira" a su propio punto de fuga en vez de a un punto de fuga compartido.
+   background-color va en la MISMA transition (no transition-colors de Tailwind
+   aparte): el tile "View All Services" también cambia de fondo al hover, y
+   transition es shorthand — dos reglas por separado se pisan entre sí, no se
+   suman. */
+.cmj-mega-card {
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+  transition:
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cmj-mega-card:hover,
+.cmj-mega-card:focus-visible {
+  border-color: var(--color-tan);
+  transform: translateY(-8px) scale(1.02) rotateX(4deg);
+  box-shadow:
+    0 30px 50px -22px rgba(0, 0, 0, 0.4),
+    0 10px 18px -10px rgba(0, 0, 0, 0.25);
+}
+.cmj-mega-card:focus-visible {
+  outline: 2px solid var(--color-tan);
+  outline-offset: 3px;
+}
+.cmj-mega-card__img {
+  transition: transform 0.35s ease;
+}
+.cmj-mega-card:hover .cmj-mega-card__img,
+.cmj-mega-card:focus-visible .cmj-mega-card__img {
+  transform: scale(1.06);
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmj-mega-card,
+  .cmj-mega-card__img {
+    transition: none;
+  }
+  .cmj-mega-card:hover,
+  .cmj-mega-card:focus-visible {
+    transform: none;
+  }
 }
 
 /* ===== CTA animado (base Uiverse.io by Nawsome, adaptado a tokens CMJ) =====
@@ -21,6 +241,7 @@
 
 .cmj-cta {
   letter-spacing: 1px;
+  border-radius: 6px; /* ligero — el marco animado sigue leyendo bien con un radio chico */
   transition: background-color 0.3s ease;
 }
 
@@ -31,8 +252,8 @@
   position: absolute;
   width: 0;
   height: 2px;
-  background-color: var(--color-ink);
-  transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
+  background-color: var(--color-gold);
+  transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1), box-shadow 0.3s ease;
 }
 .cmj-cta::before {
   right: 0;
@@ -56,8 +277,8 @@
   position: absolute;
   width: 2px;
   height: 0;
-  background-color: var(--color-ink);
-  transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1);
+  background-color: var(--color-gold);
+  transition: all 0.3s cubic-bezier(0.35, 0.1, 0.25, 1), box-shadow 0.3s ease;
 }
 .cmj-cta__frame::before {
   right: 0;
@@ -81,6 +302,7 @@
   position: absolute;
   width: 100%;
   left: 0;
+  text-align: center;
   transition: all 0.4s cubic-bezier(0.35, 0.1, 0.25, 1);
   z-index: 1;
 }
@@ -101,12 +323,14 @@
 .cmj-cta:hover::after,
 .cmj-cta:focus-visible::after {
   width: 100%;
+  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--color-gold) 75%, transparent);
 }
 .cmj-cta:hover .cmj-cta__frame::before,
 .cmj-cta:focus-visible .cmj-cta__frame::before,
 .cmj-cta:hover .cmj-cta__frame::after,
 .cmj-cta:focus-visible .cmj-cta__frame::after {
   height: 100%;
+  box-shadow: 0 0 8px 1px color-mix(in srgb, var(--color-gold) 75%, transparent);
 }
 .cmj-cta:hover .cmj-cta__label::before,
 .cmj-cta:focus-visible .cmj-cta__label::before {
@@ -119,7 +343,14 @@
   transform: translateY(-50%);
 }
 .cmj-cta:hover {
-  background-color: var(--color-tan-2);
+  /* El fondo base ahora es el degradado tan→tan-2 (bg-linear-to-b, mismo que
+     el topbar) puesto vía utilidad Tailwind en el markup — eso pinta un
+     background-image, que en CSS siempre queda ENCIMA de background-color.
+     Si solo se pisa el color acá (como antes, cuando el fondo base era
+     sólido), el degradado se quedaría tapando el hover sin que se vea nada
+     distinto. Por eso hay que apagar la imagen explícitamente. */
+  background-image: none;
+  background-color: var(--color-ebano);
 }
 .cmj-cta:focus {
   outline: 0;
@@ -127,6 +358,368 @@
 .cmj-cta:focus-visible {
   outline: 2px solid var(--color-ink);
   outline-offset: 2px;
+}
+
+/* ===== Estampado decorativo sobre fondos claros (bg-paper / bg-cream / cmj-wood-bg) =====
+   Dos patrones distintos según el fondo (pedido explícito) — mismo .cmj-pattern-bg
+   en el markup en los dos casos, diferenciado acá por selector compuesto con el
+   propio bg-paper / bg-cream de Tailwind (ya conviven siempre juntos en el
+   markup — ver about/contact/home/service(s)-template.php), así no hace falta
+   tocar los templates para repartir uno u otro:
+     bg-paper (blanco) → Elementos-de-Apoyo_Patron-scaled.png, en mosaico chico
+       repetido (340px) — el original, "como estaba".
+     bg-cream (café/crema) → Estampado-apoyo-scaled.png (versión nueva del
+       cliente), a pantalla completa sin repetir (background-size:cover) — el
+       dibujo es un solo remolino de veta de madera a gran escala (piénsalo
+       como una huella digital), no una textura pensada para mosaico; en
+       mosaico chico se perdía el dibujo grande y se veía como ruido genérico.
+   Nunca sobre fondos oscuros (bg-ink), que ya tienen su propia identidad visual.
+   z-index: el ::before va en -1, pero eso solo queda "contenido" dentro de la sección si
+   .cmj-pattern-bg forma su propio stacking context — por eso position:relative + z-index:0
+   en la clase base (si no, el -1 se compara contra TODO el documento y puede colarse
+   detrás de la sección anterior). */
+.cmj-pattern-bg {
+  position: relative;
+  z-index: 0;
+}
+.cmj-pattern-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.14;
+  pointer-events: none;
+}
+.bg-paper.cmj-pattern-bg::before {
+  background-image: url("/wp-content/uploads/2026/09/Elementos-de-Apoyo_Patron-scaled.png");
+  background-repeat: repeat;
+  background-size: 340px auto;
+}
+.bg-cream.cmj-pattern-bg::before {
+  background-image: url("/wp-content/uploads/2026/09/Estampado-apoyo-scaled.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+/* ===== Máscara del loop en la cinta CTA con video (bloque 3.4 del brief) =====
+   El archivo de video (VideoBackgroundCMJ.mp4) no hace loop perfecto — el último
+   frame y el primero son escenas distintas, así que el corte se ve como un salto
+   duro cada ~5.5s. En vez de mostrarlo crudo, un div negro se oscurece justo
+   antes del corte y se aclara justo después (ver <script> al final de cada
+   template que usa esta cinta: home/about/gallery/services). No arregla el
+   video en sí — lo disimula. Lo correcto a mediano plazo es pedir al cliente
+   una exportación que sí cierre el loop. */
+.cmj-cta-video-mask {
+  position: absolute;
+  inset: 0;
+  background: var(--color-ebano);
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+.cmj-cta-video-mask.is-active {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmj-cta-video-mask {
+    transition: none;
+  }
+}
+
+/* ===== Fondo del footer (degradado de la Stats Band + estampado) =====
+   .cmj-footer-pattern es el contenedor: absolute + z-index:-1, contenido dentro
+   del footer gracias a "isolate" en el propio <footer> (ver Footer.js) — mismo
+   truco que .cmj-pattern-bg para que no se filtre detrás de otras secciones.
+   Historial: primero un patrón "liquid" (PNG horneado desde un filtro SVG en
+   vivo que causaba jank real en scroll, ~30ms/frame con picos de 300ms+),
+   después un video de textura de madera — los dos se quitaron. Ahora es el
+   mismo estampado que las secciones bg-cream (Estampado-apoyo-scaled.png,
+   ver .bg-cream.cmj-pattern-bg), puesto vía cfg.footerPatternImgUrl porque
+   Footer.js es React y no puede condicionarse a una clase de Tailwind como
+   el resto de secciones PHP. */
+.cmj-footer-pattern {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+/* El PNG no es transparente: relleno claro sólido (la mayor parte de la
+   imagen) + líneas grises finas, sin canal alfa. screen y soft-light aclaran
+   según qué tan clara sea la imagen que mezclan — como el relleno domina el
+   área, las dos aclaraban TODO el degradado (footer gris lavado en vez del
+   oscuro rico de la Stats Band), sin importar cuál se usara.
+   La solución: invert(1) da vuelta la imagen (el relleno claro pasa a casi
+   negro, las líneas grises pasan a casi blancas) ANTES de mezclarla — así
+   con mix-blend-mode:screen, el relleno (ahora oscuro) no aporta nada visible
+   sobre el fondo oscuro (screen con negro = no-op), y solo las líneas
+   (ahora claras) suman como textura sutil. El degradado de base se mantiene
+   intacto donde no hay líneas, en vez de aclararse entero. */
+.cmj-footer-pattern-img {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: invert(1);
+  opacity: 0.3;
+  mix-blend-mode: screen;
+}
+/* La sección de Proceso (Roble Ahumado → Fresno, home-template.php) usó esta
+   misma idea (opacidad simple sin invertir/mezclar, vía .cmj-method-pattern-img)
+   hasta que se descubrió que el estampado en vivo desaparecía cuando el
+   widget de Trustindex terminaba de cargar — se resolvió horneando el
+   degradado + estampado + scrim a un solo PNG estático (ver assets/process-bg.png
+   y el comentario en home-template.php). Clase eliminada, nada la usa. */
+/* .cmj-bg-video: mismo video de fondo (textura de madera) reutilizado como
+   "estampado" en cualquier sección oscura — footer (Footer.js) y la sección
+   de Proceso (home-template.php) por ahora. Un solo selector para el
+   reduced-motion en vez de uno por instancia. */
+@media (prefers-reduced-motion: reduce) {
+  .cmj-bg-video {
+    display: none;
+  }
+}
+
+/* ===== Card del Contact Form "levitando" en el hero de /contact-us =====
+   .cmj-form-levitate lleva la sombra propia (se mueve con la card al hacer
+   translateY) + el float lento. .cmj-form-shadow es una sombra de "piso"
+   aparte, debajo de la card, que se encoge/aclara cuando la card sube —
+   ese contraste es lo que vende la ilusión de que está flotando, no solo
+   moviéndose. */
+.cmj-form-levitate {
+  border-radius: 0.5rem;
+  box-shadow:
+    0 25px 50px -12px color-mix(in srgb, var(--color-ink) 35%, transparent),
+    0 10px 20px -8px color-mix(in srgb, var(--color-ink) 25%, transparent);
+  animation: cmj-levitate 6s ease-in-out infinite;
+}
+.cmj-form-shadow {
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: -14px;
+  height: 24px;
+  border-radius: 999px;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--color-ink) 35%, transparent) 0%, transparent 70%);
+  animation: cmj-levitate-shadow 6s ease-in-out infinite;
+  z-index: -1;
+}
+/* Variante para la card "glass" del hero de Home: sobre el slideshow oscuro,
+   una sombra oscura no se ve (queda negro sobre negro) — un halo claro lee
+   mejor ahí, como si fuera luz difundiéndose bajo el vidrio. Mismo timing que
+   .cmj-form-shadow, solo cambia el color. */
+.cmj-form-shadow--glow {
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--color-paper) 45%, transparent) 0%, transparent 70%);
+}
+@keyframes cmj-levitate {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-14px);
+  }
+}
+@keyframes cmj-levitate-shadow {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scaleX(0.82);
+    opacity: 0.3;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmj-form-levitate,
+  .cmj-form-shadow {
+    animation: none;
+  }
+}
+/* Pausa el float mientras se interactúa con el form: si no, la card se sigue
+   moviendo unos px debajo del cursor/foco mientras alguien intenta llenarla. */
+.cmj-form-levitate:hover,
+.cmj-form-levitate:focus-within {
+  animation-play-state: paused;
+}
+.cmj-form-levitate:hover .cmj-form-shadow,
+.cmj-form-levitate:focus-within .cmj-form-shadow {
+  animation-play-state: paused;
+}
+
+/* ===== Slideshow de fondo del hero, con efecto Ken Burns (profundidad) =====
+   Fotos apiladas absolute inset-0, crossfade por opacity + zoom lento (scale
+   1 → 1.06) mientras cada una está activa. El ciclo lo maneja el JS al final
+   de home-template.php, alternando la clase is-active (con un reflow forzado
+   para reiniciar la animación en cada foto). */
+.cmj-hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 1.4s ease;
+}
+.cmj-hero-slide.is-active {
+  opacity: 1;
+  animation: cmj-hero-kenburns 7s ease-out forwards;
+}
+@keyframes cmj-hero-kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmj-hero-slide {
+    transition: none;
+  }
+  .cmj-hero-slide.is-active {
+    animation: none;
+  }
+}
+
+/* ===== Rotador de servicios (card grande de "From Kitchen to Garage" en
+   home-template.php) =====
+   Mismo patrón de crossfade que .cmj-hero-slide arriba (opacity + JS al
+   final de home-template.php alternando is-active), pero apilando <a>
+   completos en vez de solo fotos: cada slide es un servicio distinto con
+   su propio link, así que is-active también controla pointer-events —
+   el slide oculto no debe ser clickeable ni interceptar el hover/tilt de
+   .cmj-mega-card del que está encima. Selector propio (no .cmj-hero-slide)
+   para que el intervalo del hero y el de acá no se pisen entre sí. Sin el
+   Ken Burns del hero acá, para no sumar dos animaciones de zoom a la vez
+   con el scale al hover de .cmj-mega-card__img. */
+.cmj-service-rotator__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 1s ease;
+}
+.cmj-service-rotator__slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmj-service-rotator__slide {
+    transition: none;
+  }
+}
+
+/* Refuerzo de legibilidad para el texto sobre las fotos: el overlay oscuro no
+   siempre alcanza en zonas muy claras de la foto (ventanas, madera clara),
+   así que además de oscurecer el overlay le sumamos una sombra sutil al texto.
+   text-shadow hereda a los hijos, por eso basta con ponerla en el contenedor. */
+.cmj-hero-text-shadow {
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+/* ===== Trust bar en marquee (scroll horizontal infinito) =====
+   Estructura: <div.cmj-marquee-track> con el listado de items duplicado 2x
+   (la segunda copia con aria-hidden="true", para lectores de pantalla).
+   Cada copia es <div.cmj-marquee-group> de igual ancho — así -50% de
+   translateX recorre exactamente una copia y el loop no se nota.
+
+   Velocidad (pedido del cliente: "está pasando demasiado rápido, necesito
+   algo más visualmente correcto para el ojo humano" — cambio global):
+   medido con Playwright, el ancho real de una mitad del track del trust
+   bar es ~3245px y el de condados (S9 home) ~4787px. A las duraciones
+   viejas (28s / 80s) eso daba ~119px/s y ~60px/s — el trust bar corría el
+   doble de rápido que los condados y, sobre todo, demasiado rápido para
+   leer el texto cómodamente. Unifiqué ambas franjas a ~45px/s (ritmo de
+   lectura cómodo) y despejé la duración de cada una para esa velocidad:
+   3245/45 ≈ 72s (trust bar) y 4787/45 ≈ 106s (condados, --slow). */
+.cmj-marquee-track {
+  animation: cmj-marquee 72s linear infinite;
+}
+/* Modificador para marquees con una "mitad" más ancha (más items repetidos,
+   como los condados de S9 en home-template.php: 24 cards por mitad en vez de
+   las 4 del trust bar) — a igual duración recorren más distancia y se sienten
+   más rápidos, así que necesitan su propia duración para mantener los
+   ~45px/s de arriba, sin tocar la velocidad del trust bar (misma clase
+   base .cmj-marquee-track). */
+.cmj-marquee-track--slow {
+  animation-duration: 106s;
+}
+/* Fila en sentido opuesto (pedido explícito: "una fila se mueva de
+   izquierda a derecha y la otra de manera opuesta") — mismos keyframes de
+   -50%, solo se invierte el sentido del recorrido, así que conserva la
+   misma velocidad en px/s que la fila normal sin duplicar el @keyframes. */
+.cmj-marquee-track--reverse {
+  animation-direction: reverse;
+}
+/* Para marquees con contenido clickeable (ej. cards de servicio en
+   service-template.php, a diferencia del trust bar / condados que son
+   solo texto informativo): pausa el recorrido al pasar el mouse o hacer
+   foco con teclado, para poder hacer click sin perseguir el link en
+   movimiento. */
+.cmj-marquee-track--pausable:hover,
+.cmj-marquee-track--pausable:focus-within {
+  animation-play-state: paused;
+}
+@keyframes cmj-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmj-marquee-track {
+    animation: none;
+  }
+}
+
+/* ===== Textura de veta de madera (pedido explícito del cliente, brief 5.1) =====
+   Uso sutil en heros y separadores. Placeholder hasta tener fotografía real de proyectos. */
+.cmj-wood-bg {
+  background-color: var(--color-cream);
+  background-image: repeating-linear-gradient(
+    92deg,
+    color-mix(in srgb, var(--color-tan) 14%, transparent) 0px,
+    color-mix(in srgb, var(--color-tan) 14%, transparent) 2px,
+    transparent 2px,
+    transparent 18px
+  );
+}
+
+/* ===== Avatar placeholder "semi-3D" con gradiente shiny =====
+   Mientras no hay fotos reales de los socios (ver about-template.php S3 —
+   Pendiente #5 del brief), reemplaza el círculo plano de .cmj-wood-bg por
+   una esfera con gradiente metálico (paleta "Latón" tan→ink) + un highlight
+   radial arriba-izquierda (simula el brillo de una esfera) + inset shadow
+   (simula el bisel/profundidad). El ::before pinta el highlight ANTES que
+   el ícono (hijo real), así el ícono queda encima sin necesitar z-index. */
+.cmj-avatar-placeholder {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(
+    circle at 32% 28%,
+    color-mix(in srgb, var(--color-tan) 55%, white 25%) 0%,
+    var(--color-tan) 45%,
+    var(--color-ink) 100%
+  );
+  box-shadow:
+    inset -8px -10px 18px rgba(0, 0, 0, 0.3),
+    inset 6px 8px 14px rgba(255, 255, 255, 0.22),
+    0 10px 20px -8px color-mix(in srgb, var(--color-ink) 55%, transparent);
+}
+.cmj-avatar-placeholder::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 38% at 34% 20%, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 72%);
+}
+.cmj-avatar-placeholder svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.35));
 }
 
 /* Reduced motion: sin roll ni dibujo de marco */
@@ -147,6 +740,11 @@
   }
   .cmj-cta:hover .cmj-cta__label::after,
   .cmj-cta:focus-visible .cmj-cta__label::after {
+    display: none;
+  }
+
+  /* Video de fondo de la cinta CTA final: ocultar y quedarse con el fondo sólido (bg-ink). */
+  .cmj-cta-video {
     display: none;
   }
 }
