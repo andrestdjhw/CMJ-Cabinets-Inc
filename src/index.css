@@ -222,13 +222,29 @@
 .cmj-mega-card:focus-visible .cmj-mega-card__img {
   transform: scale(1.06);
 }
+/* Galería (#cmj-gallery-grid): es un layout multi-columna (columns-2/3), y
+   Chrome/Safari tienen un bug de pintado con transforms 3D + preserve-3d +
+   will-change dentro de columnas — las cards de la 2.ª/3.ª columna
+   desaparecían al hacer hover (reportado por el cliente en Home Bar, Murphy
+   Bed, Home Office y Built-in Desk). Ahí la card se queda plana: mismo
+   levantado + sombra, sin rotateX ni capa 3D. */
+#cmj-gallery-grid .cmj-mega-card {
+  transform-style: flat;
+  will-change: auto;
+}
+#cmj-gallery-grid .cmj-mega-card:hover,
+#cmj-gallery-grid .cmj-mega-card:focus-visible {
+  transform: translateY(-8px) scale(1.02);
+}
 @media (prefers-reduced-motion: reduce) {
   .cmj-mega-card,
   .cmj-mega-card__img {
     transition: none;
   }
   .cmj-mega-card:hover,
-  .cmj-mega-card:focus-visible {
+  .cmj-mega-card:focus-visible,
+  #cmj-gallery-grid .cmj-mega-card:hover,
+  #cmj-gallery-grid .cmj-mega-card:focus-visible {
     transform: none;
   }
 }
@@ -581,6 +597,27 @@
     transition: none;
   }
   .cmj-hero-slide.is-active {
+    animation: none;
+  }
+}
+
+/* ===== Fondo de coming-soon-template.php =====
+   Zoom in / zoom out continuo (alternate): a diferencia del Ken Burns del
+   hero (una sola pasada por foto), acá hay una sola foto fija y el
+   movimiento no termina nunca. */
+.cmj-coming-soon-bg {
+  animation: cmj-coming-soon-zoom 16s ease-in-out infinite alternate;
+}
+@keyframes cmj-coming-soon-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.12);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmj-coming-soon-bg {
     animation: none;
   }
 }

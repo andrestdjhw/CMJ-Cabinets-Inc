@@ -135,7 +135,7 @@ get_header(); ?>
         $pillars = array(
           array(
             'title' => 'Our Mission',
-            'copy' => "To build custom cabinetry that fits our clients' homes and lives perfectly, with honest pricing, real craftsmanship, and a team that always picks up the phone.",
+            'copy' => "At CMJ Cabinets, Inc., our mission is to redefine luxury cabinetry by seamlessly integrating innovative design, superior craftsmanship, and personalized service to exceed our customers' expectations.",
           ),
           array(
             'title' => 'Our Vision',
@@ -143,7 +143,7 @@ get_header(); ?>
           ),
           array(
             'title' => 'Our Values',
-            'copy' => 'Craftsmanship, honesty, and family: the same standard for every project, from a single vanity to a full kitchen.',
+            'copy' => 'Craftsmanship, integrity, and family values — delivered honestly, owned fully, and care for every home we touch.',
           ),
         );
         foreach ($pillars as $pillar) : ?>

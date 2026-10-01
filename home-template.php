@@ -70,10 +70,10 @@ get_header(); ?>
         <div class="cmj-hero-text-shadow text-center lg:text-left">
           <p class="inline-block text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-cream bg-ink/70 px-4 py-1.5 rounded-full">Family Owned &amp; Operated Since 2007</p>
           <h1 class="mt-4 text-4xl sm:text-6xl font-normal tracking-wide text-paper max-w-xl mx-auto lg:mx-0">
-            Custom Cabinets <span class="text-tan">Built for the Way</span> You Live
+            Turning <span class="text-tan">your ideas</span> into reality.
           </h1>
           <p class="mt-5 text-lg text-cream/85 max-w-xl mx-auto lg:mx-0">
-            We design, build, and install custom kitchens, closets, and cabinetry for every room of your home, crafted in our own Los Angeles workshop.
+            At CMJ Cabinets, we don't just manufacture cabinets; we take care of the entire process. From design to professional installation, we transform your ideas into functional, elegant spaces.
           </p>
           <div class="mt-9 flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4">
             <a
@@ -174,8 +174,11 @@ get_header(); ?>
       // salen de cmj_service_details() (no se repite el copy a mano en un
       // cuarto lugar — mismo criterio que ya usa service-template.php).
       $services_order = array('kitchen', 'closet', 'bar-cabinets', 'bathroom-vanity', 'garages', 'murphy-beds', 'laundry-room', 'entertainment-centers');
-      $mid_slugs = array_slice($services_order, 1, 4);
-      $marquee_slugs = array_slice($services_order, 5);
+      // Pedido del cliente: Bar Cabinets sale de la columna derecha y entra
+      // Kitchen en su lugar (antes solo aparecía en el rotador grande). Bar
+      // Cabinets pasa al marquee de abajo para que siga enlazado desde la home.
+      $mid_slugs = array('closet', 'kitchen', 'bathroom-vanity', 'garages');
+      $marquee_slugs = array('bar-cabinets', 'murphy-beds', 'laundry-room', 'entertainment-centers');
       ?>
 
       <!-- Grid: card grande (ahora un rotador que va mostrando los 8
@@ -316,7 +319,7 @@ get_header(); ?>
   <section class="bg-linear-to-b from-ink to-ebano">
     <div class="max-w-7xl mx-auto px-4 py-14 grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
       <?php
-      // Nota dev: "+1K Projects" y "13 Craftsmen" son estimaciones — validar con el cliente (Pendiente #8).
+      // "+20K Projects" confirmado por el cliente (antes "+1K", estimación nuestra).
       // Pedido explícito del cliente: el "+" va ANTES del número en "+19" y
       // "+1K" (antes "19+" / "1000s"). El contador animado solo soportaba un
       // sufijo (después del número) — se le sumó soporte de prefijo para
@@ -325,7 +328,7 @@ get_header(); ?>
         array('n' => '+19', 'label' => 'Years in Business'),
         array('n' => '5★', 'label' => 'Rating on Google & Yelp'),
         array('n' => '13', 'label' => 'Craftsmen & Installers'),
-        array('n' => '+1K', 'label' => 'Projects Installed'),
+        array('n' => '+20K', 'label' => 'Projects Installed'),
       );
       foreach ($stats as $stat) :
         // Separa el número (para animar) de lo que no es número: prefijo
@@ -373,7 +376,7 @@ get_header(); ?>
     </div>
   </section>
 
-  <!-- ===== S4 — PROCESO (bloque 3.2 del brief: Design → Build → Install) =====
+  <!-- ===== S4 — PROCESO (9 pasos, de Intro Call a Final Payment — ver cmj_process_steps() en functions.php) =====
        Layout inspirado en la sección "How We Work" de eclandscapingutah.com —
        revisé su HTML/CSS compilado directo: dos columnas (intro + foto que
        hace crossfade, sticky en desktop, a la izquierda; lista numerada con
@@ -383,30 +386,16 @@ get_header(); ?>
        al final del archivo con un scrollspy simple — ver .cmj-method__* en
        index.css para el CSS de los estados is-active / is-current. -->
   <?php
-  $process_steps = array(
-    array(
-      'n' => '1',
-      'title' => 'Design',
-      'copy' => 'We visit your home, take exact measurements, and design your project with you: layout, materials, finishes, and a clear quote with mock-ups.',
-      'image' => content_url('/uploads/2026/09/Design1-scaled.jpg'),
-    ),
-    array(
-      'n' => '2',
-      'title' => 'Build',
-      'copy' => 'Your cabinets are fabricated in our own Los Angeles workshop by our craftsmen: custom sizes, quality materials, soft-close hardware.',
-      'image' => content_url('/uploads/2026/09/Build-scaled.webp'),
-    ),
-    array(
-      'n' => '3',
-      'title' => 'Install',
-      'copy' => 'Our own installation team delivers and installs with precision: on time, clean, and checked with you detail by detail.',
-      'image' => content_url('/uploads/2026/09/Installing-scaled.jpg'),
-    ),
-  );
+  $process_steps = cmj_process_steps();
   $process_total = count($process_steps);
   ?>
+  <!-- overflow-clip (no overflow-hidden): overflow-hidden convierte a la
+       sección en el contenedor de referencia del sticky y la columna
+       izquierda dejaba de seguir el scroll. La foto toma su alto del viewport
+       (lg:h-[calc(100vh-29rem)]) para que la columna completa quepa en
+       pantalla mientras está pegada, ahora que la lista tiene 9 pasos. -->
   <section
-    class="cmj-method-section relative overflow-hidden bg-ink bg-cover bg-center"
+    class="cmj-method-section relative overflow-clip bg-ink bg-cover bg-center"
     style="background-image: url('<?php echo esc_url(get_theme_file_uri('/assets/process-bg.png')); ?>');"
   >
     <!-- Fondo horneado a UNA sola imagen estática (degradado Roble Ahumado →
@@ -445,7 +434,7 @@ get_header(); ?>
           <span class="shrink-0 text-xs tracking-[0.16em] text-cream/60"><span class="cmj-method__counter text-paper">01</span> / <?php echo esc_html(sprintf('%02d', $process_total)); ?></span>
         </div>
 
-        <div class="cmj-method__media relative mt-10 hidden aspect-4/5 overflow-hidden rounded-md border border-paper/15 lg:block">
+        <div class="cmj-method__media relative mt-10 hidden aspect-4/5 lg:aspect-auto lg:h-[calc(100vh-29rem)] lg:min-h-64 overflow-hidden rounded-md border border-paper/15 lg:block">
           <span class="pointer-events-none absolute left-0 top-0 z-10 h-7 w-7 border-l-2 border-t-2 border-paper"></span>
           <span class="pointer-events-none absolute bottom-0 right-0 z-10 h-7 w-7 border-b-2 border-r-2 border-paper"></span>
           <?php foreach ($process_steps as $i => $step) : if (empty($step['image'])) continue; ?>
@@ -478,13 +467,7 @@ get_header(); ?>
           >
             <span class="cmj-method__num font-display text-[clamp(2.2rem,5vw,3.2rem)] font-bold leading-none"><?php echo esc_html(sprintf('%02d', $i + 1)); ?></span>
             <span class="cmj-method__icon mt-1 flex h-10 w-10 items-center justify-center rounded-md border border-paper/15 bg-ink text-cream/70">
-              <?php if ($step['title'] === 'Design') : ?>
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-              <?php elseif ($step['title'] === 'Build') : ?>
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-              <?php else : ?>
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.3 2.3L15.5 9.5"/></svg>
-              <?php endif; ?>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><?php echo $step['icon']; // markup fijo de cmj_process_steps() ?></svg>
             </span>
             <div>
               <h3 class="text-xl font-semibold text-paper mb-2"><?php echo esc_html($step['title']); ?></h3>
@@ -565,9 +548,9 @@ get_header(); ?>
         $gallery_teaser = array(
           array('img' => content_url('/uploads/2026/09/CMJHero1-1152x1536.webp'), 'title' => 'Walk-In Closet System'),
           array('img' => content_url('/uploads/2026/09/CMJHero2-1152x1536.webp'), 'title' => 'Home Office Built-Ins'),
-          array('img' => $service_images['garages'], 'title' => 'Garage Storage Wall'),
-          array('img' => content_url('/uploads/2026/09/CMJHero3-743x1024.webp'), 'title' => 'Built-In Desk &amp; Lit Shelving'),
-          array('img' => $service_images['murphy-beds'], 'title' => 'Murphy Bed &amp; Desk Combo'),
+          array('img' => content_url('/uploads/2026/09/GarageCabinets.webp'), 'title' => 'Display Cabinet'),
+          array('img' => content_url('/uploads/2026/09/CMJHero3-743x1024.webp'), 'title' => 'Built-in &amp; Custom Desk with Strip Lighting'),
+          array('img' => $service_images['murphy-beds'], 'title' => 'Murphy Bed &amp; Storage Cabinets'),
           array('img' => $service_images['entertainment-centers'], 'title' => 'Entertainment Center'),
         );
         foreach ($gallery_teaser as $item) : ?>
@@ -619,8 +602,7 @@ get_header(); ?>
     <div class="relative max-w-3xl mx-auto px-4 pt-20 sm:pt-28 text-center">
       <h2 class="text-3xl sm:text-4xl font-normal tracking-wide text-paper">Proudly Serving Greater Los Angeles</h2>
       <p class="mt-4 text-cream/80 leading-relaxed">
-        Based in Los Angeles, we serve homeowners within a 40–60 mile radius: Los Angeles, Orange, San Bernardino, and Ventura counties.
-        <!-- Nota dev: lista de condados sujeta a confirmación (Pendiente #9 del brief). -->
+        Based in Los Angeles, we serve homeowners within a 35-mile radius: Los Angeles and Orange counties, Oxnard, and Ventura.
       </p>
       <a href="<?php echo esc_url($cfg['mapsUrl']); ?>" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center gap-1.5 text-tan font-semibold text-sm hover:text-paper transition-colors">
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -641,7 +623,7 @@ get_header(); ?>
     </div>
 
     <?php
-    $service_counties = array('Los Angeles County', 'Orange County', 'San Bernardino County', 'Ventura County');
+    $service_counties = array('Los Angeles County', 'Orange County', 'Oxnard', 'Ventura');
     // Repetimos la lista varias veces DENTRO de cada mitad del track: son solo 4
     // condados, muy angostos — si cada mitad del marquee mide menos que el ancho
     // del viewport, se alcanza a ver el "final" de las cards antes de que la
@@ -827,7 +809,7 @@ get_header(); ?>
 
 <script>
 (function () {
-  // Contador animado de la Stats Band (19+, 5★, 13, +1K): cuenta de 0 al valor
+  // Contador animado de la Stats Band (+19, 5★, 13, +20K): cuenta de 0 al valor
   // real CADA VEZ que la sección entra en viewport (no solo la primera vez) —
   // si el usuario sube y vuelve a bajar hasta ahí, se reinicia y cuenta de nuevo.
   // Progressive enhancement: si JS no corre, el número real ya está en el HTML

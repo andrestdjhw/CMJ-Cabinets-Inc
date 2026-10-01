@@ -51,9 +51,14 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 py-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
         {/* Marca + contacto */}
         <div className="lg:col-span-1 text-center">
-          <a href={cfg.homeUrl || "/"} className="inline-flex items-center" aria-label="CMJ Cabinets — Home">
+          {/* Logo oficial (tinta oscura) pasado a blanco con brightness-0 invert
+              para el fondo oscuro, + "Est. 2007" debajo (pedido del cliente). */}
+          <a href={cfg.homeUrl || "/"} className="inline-flex flex-col items-center" aria-label="CMJ Cabinets — Home">
             {cfg.footerLogoUrl ? (
-              <img src={cfg.footerLogoUrl} alt="CMJ Cabinets, Inc." className="h-[90px] w-auto" />
+              <>
+                <img src={cfg.footerLogoUrl} alt="CMJ Cabinets, Inc." className="w-full max-w-60 h-auto brightness-0 invert" />
+                <span className="mt-3 text-xs font-semibold uppercase tracking-[0.35em] text-cream/80">Est. 2007</span>
+              </>
             ) : (
               <span className="text-xl font-bold tracking-tight text-paper">
                 CMJ <span className="text-tan">Cabinets</span>
@@ -141,7 +146,14 @@ function Footer() {
       {/* ===== BARRA INFERIOR ===== */}
       <div className="border-t border-cream/10">
         <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:grid sm:grid-cols-3 items-center gap-2 text-xs text-cream/50">
-          <p className="sm:justify-self-start">&copy; {year} CMJ Cabinets, Inc. All rights reserved.</p>
+          <div className="sm:justify-self-start flex flex-col items-center sm:items-start gap-1">
+            <p>&copy; {year} CMJ Cabinets, Inc. All rights reserved.</p>
+            <p className="flex items-center gap-2">
+              <a href={cfg.privacyUrl || "/privacy-policy/"} className="hover:text-tan transition-colors">Privacy Policy</a>
+              <span aria-hidden="true">·</span>
+              <a href={cfg.termsUrl || "/terms-and-conditions/"} className="hover:text-tan transition-colors">Terms &amp; Conditions</a>
+            </p>
+          </div>
           <a
             href="https://828marketingsolutions.com"
             target="_blank"

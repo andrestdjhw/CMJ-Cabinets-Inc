@@ -10,7 +10,7 @@
  * TODO: conectar SEO Title / meta description a un plugin SEO (Yoast/RankMath) cuando se instale.
  *
  * Nota dev (brief): filtrado client-side con vanilla JS (sin componente React —
- * ver arquitectura del tema). Los 14 items ya tienen foto real (Pendiente #5
+ * ver arquitectura del tema). Los 16 items ya tienen foto real (Pendiente #5
  * del brief resuelto): mismas que usa cmj_service_images(), algunas del
  * slideshow del hero de Home, y el resto subidas directo a /uploads. Un item
  * sin la key 'img' cae en placeholder de textura de madera automáticamente
@@ -33,20 +33,22 @@ $filters = array(
 );
 
 $gallery_items = array(
-  array('category' => 'kitchens', 'title' => 'Custom Kitchen Cabinets', 'img' => $service_images['kitchen']),
-  array('category' => 'kitchens', 'title' => 'Kitchen Island &amp; Pantry', 'img' => content_url('/uploads/2026/09/KitchenIslandPantry-scaled.webp')),
-  array('category' => 'kitchens', 'title' => 'Shaker Style Kitchen', 'img' => content_url('/uploads/2026/09/ShakerStyleKitchen.webp')),
+  array('category' => 'kitchens', 'title' => 'European Style Kitchen', 'img' => $service_images['kitchen']),
+  array('category' => 'kitchens', 'title' => 'Kitchen Island', 'img' => content_url('/uploads/2026/09/KitchenIslandPantry-scaled.webp')),
+  array('category' => 'kitchens', 'title' => 'European Style Kitchen', 'img' => content_url('/uploads/2026/09/ShakerStyleKitchen.webp')),
   array('category' => 'closets', 'title' => 'Walk-In Closet', 'img' => content_url('/uploads/2026/09/CMJHero1-scaled.webp')),
-  array('category' => 'closets', 'title' => 'Reach-In Closet System', 'img' => $service_images['closet']),
+  array('category' => 'closets', 'title' => 'Custom Walk-In', 'img' => $service_images['closet']),
   array('category' => 'bars', 'title' => 'Home Bar &amp; Wine Storage', 'img' => $service_images['bar-cabinets']),
-  array('category' => 'bars', 'title' => 'Butler\'s Pantry Bar', 'img' => content_url('/uploads/2026/09/ButlersPantryBar-scaled.webp')),
-  array('category' => 'vanities', 'title' => 'Double Bathroom Vanity', 'img' => $service_images['bathroom-vanity']),
-  array('category' => 'vanities', 'title' => 'Floating Vanity', 'img' => content_url('/uploads/2026/09/FloatingVanity-scaled.webp')),
-  array('category' => 'garages', 'title' => 'Garage Storage Wall', 'img' => $service_images['garages']),
-  array('category' => 'murphy-beds', 'title' => 'Murphy Bed &amp; Desk Combo', 'img' => $service_images['murphy-beds']),
+  array('category' => 'kitchens', 'title' => 'European Style Kitchen', 'img' => content_url('/uploads/2026/09/ButlersPantryBar-scaled.webp')),
+  array('category' => 'vanities', 'title' => 'Bathroom Vanity', 'img' => $service_images['bathroom-vanity']),
+  array('category' => 'more', 'title' => 'Custom Bench', 'img' => content_url('/uploads/2026/09/FloatingVanity-scaled.webp')),
+  array('category' => 'garages', 'title' => 'Garage Cabinets', 'img' => content_url('/uploads/2026/09/IMG_0103.jpg')),
+  array('category' => 'murphy-beds', 'title' => 'Murphy Bed &amp; Storage Cabinets', 'img' => $service_images['murphy-beds']),
+  array('category' => 'more', 'title' => 'Display Cabinet', 'img' => content_url('/uploads/2026/09/GarageCabinets.webp')),
+  array('category' => 'more', 'title' => 'Mudroom', 'img' => content_url('/uploads/2026/09/IMG_7684.jpg')),
   array('category' => 'more', 'title' => 'Entertainment Center', 'img' => $service_images['entertainment-centers']),
   array('category' => 'more', 'title' => 'Home Office Built-Ins', 'img' => content_url('/uploads/2026/09/CMJHero2-scaled.webp')),
-  array('category' => 'more', 'title' => 'Built-In Desk &amp; Lit Shelving', 'img' => content_url('/uploads/2026/09/CMJHero3-scaled.webp')),
+  array('category' => 'more', 'title' => 'Built-in &amp; Custom Desk with Strip Lighting', 'img' => content_url('/uploads/2026/09/CMJHero3-scaled.webp')),
 );
 
 get_header(); ?>
@@ -88,7 +90,7 @@ get_header(); ?>
         <?php endforeach; ?>
       </div>
 
-      <div id="cmj-gallery-grid" class="columns-2 sm:columns-3 gap-4 [column-fill:_balance] perspective-[1400px]">
+      <div id="cmj-gallery-grid" class="columns-2 sm:columns-3 gap-4 [column-fill:_balance]">
         <?php foreach ($gallery_items as $i => $item) :
           $img = isset($item['img']) ? $item['img'] : null;
         ?>
@@ -111,7 +113,7 @@ get_header(); ?>
                 <span class="cmj-mega-card__img cmj-wood-bg absolute inset-0"></span>
               <?php endif; ?>
               <span class="absolute inset-0 bg-ink/0 group-hover:bg-ink/10 transition-colors"></span>
-              <span class="absolute bottom-0 left-0 right-0 p-3 text-xs font-medium text-ink/60 bg-paper/70"><?php echo wp_kses_post($item['title']); ?></span>
+              <span class="absolute bottom-0 left-0 right-0 p-3 text-center text-xs font-medium text-ink/60 bg-paper/70"><?php echo wp_kses_post($item['title']); ?></span>
             </span>
           </button>
         <?php endforeach; ?>

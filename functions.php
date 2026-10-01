@@ -15,7 +15,7 @@ function cmj_service_images() {
       'closet'                => $base . 'CustomClosets-scaled.webp',
       'bar-cabinets'          => $base . 'BarCabinets.webp',
       'bathroom-vanity'       => $base . 'BathroomVanities-scaled.webp',
-      'garages'               => $base . 'GarageCabinets.webp',
+      'garages'               => $base . 'IMG_0570-scaled.jpg',
       'murphy-beds'           => $base . 'MurphyBeds-scaled.webp',
       'laundry-room'          => $base . 'LaundryRoom.webp',
       'entertainment-centers' => $base . 'EntertaimentCenters-scaled.webp',
@@ -44,6 +44,14 @@ function cmj_service_details() {
           'Soft-close hinges and drawers standard on every project',
           'Any wood, finish, or hardware you choose',
           'Islands, pantries, and specialty storage built in',
+        ),
+        // Opcional por servicio: fotos extra de proyectos, se muestran en una
+        // grid debajo de los features (ver service-template.php). Pedido del
+        // cliente: más ejemplos de cocinas en esta página.
+        'gallery' => array(
+          array('img' => content_url('/uploads/2026/09/NewKitchen-scaled.png'), 'title' => 'Custom Kitchen'),
+          array('img' => content_url('/uploads/2026/09/NewKitchen2.jpg'), 'title' => 'Custom Kitchen'),
+          array('img' => content_url('/uploads/2026/09/NewKitchen3.jpg'), 'title' => 'Custom Kitchen'),
         ),
         'faqs' => array(
           array('q' => 'Can you work around my existing kitchen layout?', 'a' => "Yes — we design around your existing plumbing, electrical, and footprint unless you're doing a full remodel."),
@@ -205,7 +213,11 @@ function cmj_faqs() {
       ),
       array(
         'q' => 'What areas do you serve?',
-        'a' => 'We are based in Los Angeles and serve homeowners within a 40–60 mile radius, including Los Angeles, Orange, San Bernardino, and Ventura counties.',
+        'a' => 'We are based in Los Angeles and serve homeowners within a 35-mile radius, including Los Angeles and Orange counties, Oxnard, and Ventura.',
+      ),
+      array(
+        'q' => 'Do you have a showroom?',
+        'a' => 'Yes, call to set up an appointment!',
       ),
       array(
         'q' => 'Can I choose my own wood, finish, and hardware?',
@@ -214,6 +226,81 @@ function cmj_faqs() {
     );
   }
   return $faqs;
+}
+
+/**
+ * Pasos de la sección "Our Process" — la usan home-template.php (S4) y
+ * service-template.php, que antes tenían cada uno su propia copia del array
+ * (pedido del cliente: el cambio de proceso aplica en todas las páginas
+ * donde aparece la sección, así que ahora es una sola fuente).
+ * 'icon' es el contenido interno de un <svg viewBox="0 0 24 24"> (markup
+ * fijo nuestro, se imprime tal cual). Cada paso tiene su propia foto.
+ */
+function cmj_process_steps() {
+  static $steps = null;
+  if ($steps === null) {
+    $up      = content_url('/uploads/2026/09/');
+    $design  = $up . 'Design1-scaled.jpg';
+    $build   = $up . 'Build-scaled.webp';
+    $install = $up . 'Installing-scaled.jpg';
+    $steps = array(
+      array(
+        'title' => 'Intro Call',
+        'copy'  => 'Tell us about your project in a quick call: your space, your style, your timeline, and your budget.',
+        'image' => $up . 'IntroCall-scaled.jpg',
+        'icon'  => '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.6 2z"/>',
+      ),
+      array(
+        'title' => 'Site Visit',
+        'copy'  => 'We visit your home, take exact measurements, and see the space firsthand.',
+        'image' => $up . 'SiteVisit-scaled.jpg',
+        'icon'  => '<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
+      ),
+      array(
+        'title' => 'Design with Quote',
+        'copy'  => 'We design your project with you (layout, materials, and finishes) and deliver a clear quote with mock-ups.',
+        'image' => $design,
+        'icon'  => '<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>',
+      ),
+      array(
+        'title' => 'Approval',
+        'copy'  => 'You review the design and quote, request any changes, and sign off once everything is exactly right.',
+        'image' => $up . 'Approval-scaled.jpg',
+        'icon'  => '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/>',
+      ),
+      array(
+        'title' => 'Deposit',
+        'copy'  => 'A deposit locks in your project and reserves your spot in our production schedule.',
+        'image' => $up . 'Deposit-scaled.jpg',
+        'icon'  => '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
+      ),
+      array(
+        'title' => 'Production',
+        'copy'  => 'Your cabinets are fabricated in our own Los Angeles workshop by our craftsmen: custom sizes, quality materials, soft-close hardware.',
+        'image' => $build,
+        'icon'  => '<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>',
+      ),
+      array(
+        'title' => 'Install',
+        'copy'  => 'Our own installation team delivers and installs with precision: on time, clean, and done right.',
+        'image' => $install,
+        'icon'  => '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/>',
+      ),
+      array(
+        'title' => 'Walk Through',
+        'copy'  => 'We walk through the finished project with you, detail by detail, to make sure everything is perfect.',
+        'image' => $up . 'Walkthrough-scaled.jpg',
+        'icon'  => '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+      ),
+      array(
+        'title' => 'Final Payment',
+        'copy'  => "Once you're completely happy with the result, the final payment closes out your project.",
+        'image' => $up . 'FinalPayment-scaled.jpg',
+        'icon'  => '<circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.3 2.3L15.5 9.5"/>',
+      ),
+    );
+  }
+  return $steps;
 }
 
 /**
@@ -226,10 +313,14 @@ function cmj_config() {
   if ($cfg === null) {
     $cfg = array(
       'homeUrl'  => home_url('/'),
-      'logoUrl'  => content_url('/uploads/2026/09/CMJ_Cabinets_Una_Tinta_Positivo_Imagotipo-scaled-e1789071825136.png'),
-      // Versión "negativo" (tinta blanca) para el footer, que tiene fondo oscuro (bg-ink) —
-      // el logo positivo (tinta oscura) del navbar casi no se vería ahí.
-      'footerLogoUrl' => content_url('/uploads/2026/09/CMJ-Cabinets-Una-Tinta-Negativo_Sello-scaled.png'),
+      // Logo actualizado entregado por el cliente (eslogan "Custom kitchens,
+      // closets, and more").
+      'logoUrl'  => content_url('/uploads/2026/09/CMJ-Cabinets_Imagotipo_Actualizado-scaled-e1790782324850.png'),
+      // Footer: el mismo logo oficial (con TM — el cliente todavía no tiene la
+      // marca registrada, así que nada de ®). Footer.js lo pasa a blanco con
+      // CSS (brightness-0 invert) porque el footer tiene fondo oscuro, y le
+      // agrega "Est. 2007" debajo como texto.
+      'footerLogoUrl' => content_url('/uploads/2026/09/CMJ-Cabinets_Imagotipo_Actualizado-scaled-e1790782324850.png'),
       // Video de textura de madera en loop — fondo de la sección "Proceso" de Home
       // (ver .cmj-method-section en home-template.php). Ya no se usa en el footer
       // (ver footerPatternImgUrl más abajo, footer volvió al fondo sólido de los
@@ -254,6 +345,11 @@ function cmj_config() {
       'mapsUrl'  => 'https://maps.app.goo.gl/mpWzfYDrpMPRXsSj9', // GBP de CMJ (del sitio actual)
       'mapsEmbedUrl' => 'https://maps.google.com/maps?q=3430+W+67th+St,+Los+Angeles,+CA&output=embed',
       'ctaUrl'   => home_url('/contact-us/'),
+      // Páginas legales (links en la barra inferior del Footer). Los slugs deben
+      // calzar con las páginas que usen privacy-policy-template.php y
+      // terms-conditions-template.php.
+      'privacyUrl' => home_url('/privacy-policy/'),
+      'termsUrl'   => home_url('/terms-and-conditions/'),
       'ctaLabel' => 'Free Estimate',
       'ctaHover' => "Let's Talk",
       'ctaVideoUrl' => content_url('/uploads/2026/09/VideoBackgroundCMJ.mp4'), // fondo de la cinta CTA final, en todas las páginas

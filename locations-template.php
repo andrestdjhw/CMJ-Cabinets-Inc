@@ -3,18 +3,18 @@
  * Template Name: Locations Template
  * Reemplaza al link de "Testimonials" del navbar (esa página nunca existió —
  * era un link muerto a /testimonials/, ver navigation.js) por un hub de área
- * de servicio: un mapa de Google por cada condado que cubrimos, mismos 4 que
- * ya se mencionan en la sección "Proudly Serving Greater Los Angeles" de Home
- * (home-template.php) y en el footer del Contact — CMJ no tiene sucursales
- * por condado, es UN taller que atiende un radio de 40–60 millas; cada mapa
- * está centrado en el condado como referencia geográfica, no en una
- * dirección física distinta.
+ * de servicio: un mapa de Google por cada zona que cubrimos (LA y Orange
+ * County + las ciudades de Oxnard y Ventura), las mismas que se mencionan en
+ * la sección "Proudly Serving Greater Los Angeles" de Home
+ * (home-template.php) — CMJ no tiene sucursales, es UN taller que atiende un
+ * radio de 35 millas; cada mapa está centrado en la zona como referencia
+ * geográfica, no en una dirección física distinta.
  *
  * Asignar a la página /locations vía Page Attributes → Template en el editor.
  *
- * SEO Title: Service Areas | Custom Cabinets Los Angeles, Orange, Ventura & San Bernardino
+ * SEO Title: Service Areas | Custom Cabinets Los Angeles, Orange County, Oxnard & Ventura
  * Meta description: CMJ Cabinets builds custom kitchens, closets & cabinetry for
- * homeowners across Los Angeles, Orange, San Bernardino, and Ventura counties.
+ * homeowners across Los Angeles and Orange counties, Oxnard, and Ventura.
  * TODO: conectar SEO Title / meta description a un plugin SEO (Yoast/RankMath) cuando se instale.
  */
 
@@ -32,14 +32,14 @@ $locations = array(
     'mapQuery' => 'Orange County, CA',
   ),
   array(
-    'county' => 'San Bernardino County',
-    'copy' => 'Same craftsmanship, same in-house team — custom kitchens and closets for San Bernardino County homeowners.',
-    'mapQuery' => 'San Bernardino County, CA',
+    'county' => 'Oxnard',
+    'copy' => 'Same craftsmanship, same in-house team — custom kitchens, closets, and built-ins for Oxnard homeowners.',
+    'mapQuery' => 'Oxnard, CA',
   ),
   array(
-    'county' => 'Ventura County',
-    'copy' => 'Custom kitchens, closets, and built-ins for Ventura County homes, from Thousand Oaks to Oxnard.',
-    'mapQuery' => 'Ventura County, CA',
+    'county' => 'Ventura',
+    'copy' => 'Custom kitchens, closets, and built-ins for Ventura homes, designed and built in our LA workshop.',
+    'mapQuery' => 'Ventura, CA',
   ),
 );
 
@@ -64,7 +64,7 @@ get_header(); ?>
       <p class="text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-tan">Where We Work</p>
       <h1 class="mt-4 text-4xl sm:text-5xl font-normal tracking-wide text-paper">Proudly Serving Southern California</h1>
       <p class="mt-4 text-lg text-cream/85">
-        Based in Los Angeles, we build and install custom cabinetry for homeowners within a 40–60 mile radius, across four counties.
+        Based in Los Angeles, we build and install custom cabinetry for homeowners within a 35-mile radius.
       </p>
     </div>
   </section>
@@ -104,7 +104,7 @@ get_header(); ?>
     <div class="max-w-6xl mx-auto px-4 py-16 sm:py-20">
       <div class="text-center max-w-2xl mx-auto mb-12">
         <h2 class="text-3xl sm:text-4xl font-normal tracking-wide text-ink">Our Service Area</h2>
-        <p class="mt-3 text-ink/70">One workshop, one team — four counties. Wherever you are in the radius below, we design, build, and install in person.</p>
+        <p class="mt-3 text-ink/70">One workshop, one team, one 35-mile radius. Wherever you are in the radius below, we design, build, and install in person.</p>
       </div>
       <!-- cmj-form-levitate + cmj-form-shadow: mismo efecto que ya usa el
            Contact Form (ver index.css) — sombra suave + flotación lenta. La

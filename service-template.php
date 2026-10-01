@@ -128,6 +128,31 @@ get_header(); ?>
           <?php endforeach; ?>
         </div>
       <?php endif; ?>
+
+      <?php if (!empty($service['gallery'])) : ?>
+        <!-- Fotos extra del servicio (clave opcional 'gallery' en
+             cmj_service_details()). Grid normal, no multi-columna como la
+             galería: acá el tilt 3D de .cmj-mega-card no tiene el bug de
+             pintado (ver #cmj-gallery-grid en index.css). -->
+        <div class="mt-14">
+          <div class="flex items-end justify-between flex-wrap gap-4 mb-6">
+            <h2 class="text-2xl sm:text-3xl font-normal tracking-wide text-ink">Recent Projects</h2>
+            <a href="<?php echo esc_url(home_url('/gallery/')); ?>" class="text-tan-2 font-semibold text-sm hover:text-tan transition-colors">View Full Gallery →</a>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-5 perspective-[1400px]">
+            <?php foreach ($service['gallery'] as $photo) : ?>
+              <div class="cmj-mega-card relative overflow-hidden rounded-md border border-transparent aspect-3/4">
+                <img
+                  src="<?php echo esc_url($photo['img']); ?>"
+                  alt="<?php echo esc_attr($photo['title']); ?>"
+                  loading="lazy"
+                  class="cmj-mega-card__img absolute inset-0 w-full h-full object-cover"
+                />
+              </div>
+            <?php endforeach; ?>
+          </div>
+        </div>
+      <?php endif; ?>
     </div>
   </section>
 
@@ -140,30 +165,16 @@ get_header(); ?>
        Trustindex, pero reusamos el mismo asset por consistencia visual, no
        por necesidad). El scrollspy va en el <script> al final del archivo. -->
   <?php
-  $process_steps = array(
-    array(
-      'n' => '1',
-      'title' => 'Design',
-      'copy' => 'We visit your home, take exact measurements, and design your project with you: layout, materials, finishes, and a clear quote with mock-ups.',
-      'image' => content_url('/uploads/2026/09/Design1-scaled.jpg'),
-    ),
-    array(
-      'n' => '2',
-      'title' => 'Build',
-      'copy' => 'Your cabinets are fabricated in our own Los Angeles workshop by our craftsmen: custom sizes, quality materials, soft-close hardware.',
-      'image' => content_url('/uploads/2026/09/Build-scaled.webp'),
-    ),
-    array(
-      'n' => '3',
-      'title' => 'Install',
-      'copy' => 'Our own installation team delivers and installs with precision: on time, clean, and checked with you detail by detail.',
-      'image' => content_url('/uploads/2026/09/Installing-scaled.jpg'),
-    ),
-  );
+  $process_steps = cmj_process_steps();
   $process_total = count($process_steps);
   ?>
+  <!-- overflow-clip (no overflow-hidden): overflow-hidden convierte a la
+       sección en el contenedor de referencia del sticky y la columna
+       izquierda dejaba de seguir el scroll. La foto toma su alto del viewport
+       (lg:h-[calc(100vh-29rem)]) para que la columna completa quepa en
+       pantalla mientras está pegada, ahora que la lista tiene 9 pasos. -->
   <section
-    class="cmj-method-section relative overflow-hidden bg-ink bg-cover bg-center"
+    class="cmj-method-section relative overflow-clip bg-ink bg-cover bg-center"
     style="background-image: url('<?php echo esc_url(get_theme_file_uri('/assets/process-bg.png')); ?>');"
   >
     <div class="relative mx-auto grid max-w-7xl gap-14 px-4 py-16 sm:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
@@ -183,7 +194,7 @@ get_header(); ?>
           <span class="shrink-0 text-xs tracking-[0.16em] text-cream/60"><span class="cmj-method__counter text-paper">01</span> / <?php echo esc_html(sprintf('%02d', $process_total)); ?></span>
         </div>
 
-        <div class="cmj-method__media relative mt-10 hidden aspect-4/5 overflow-hidden rounded-md border border-paper/15 lg:block">
+        <div class="cmj-method__media relative mt-10 hidden aspect-4/5 lg:aspect-auto lg:h-[calc(100vh-29rem)] lg:min-h-64 overflow-hidden rounded-md border border-paper/15 lg:block">
           <span class="pointer-events-none absolute left-0 top-0 z-10 h-7 w-7 border-l-2 border-t-2 border-paper"></span>
           <span class="pointer-events-none absolute bottom-0 right-0 z-10 h-7 w-7 border-b-2 border-r-2 border-paper"></span>
           <?php foreach ($process_steps as $i => $step) : if (empty($step['image'])) continue; ?>
@@ -210,13 +221,7 @@ get_header(); ?>
           >
             <span class="cmj-method__num font-display text-[clamp(2.2rem,5vw,3.2rem)] font-bold leading-none"><?php echo esc_html(sprintf('%02d', $i + 1)); ?></span>
             <span class="cmj-method__icon mt-1 flex h-10 w-10 items-center justify-center rounded-md border border-paper/15 bg-ink text-cream/70">
-              <?php if ($step['title'] === 'Design') : ?>
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/></svg>
-              <?php elseif ($step['title'] === 'Build') : ?>
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-              <?php else : ?>
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.3 2.3L15.5 9.5"/></svg>
-              <?php endif; ?>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><?php echo $step['icon']; // markup fijo de cmj_process_steps() ?></svg>
             </span>
             <div>
               <h3 class="text-xl font-semibold text-paper mb-2"><?php echo esc_html($step['title']); ?></h3>
