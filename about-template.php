@@ -38,7 +38,7 @@ get_header(); ?>
     <div class="relative max-w-4xl mx-auto px-4 py-16 sm:py-20 text-center">
       <p class="text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-tan">About CMJ Cabinets</p>
       <h1 class="mt-4 text-4xl sm:text-5xl font-normal tracking-wide text-paper">
-        Three Partners. One Standard: Built Right.
+        Three Partners, One Vision, Premium Quality
       </h1>
     </div>
   </section>
