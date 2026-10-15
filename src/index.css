@@ -382,9 +382,9 @@
    propio bg-paper / bg-cream de Tailwind (ya conviven siempre juntos en el
    markup — ver about/contact/home/service(s)-template.php), así no hace falta
    tocar los templates para repartir uno u otro:
-     bg-paper (blanco) → Elementos-de-Apoyo_Patron-scaled.png, en mosaico chico
+     bg-paper (blanco) → Elementos-de-Apoyo_Patron-scaled.webp, en mosaico chico
        repetido (340px) — el original, "como estaba".
-     bg-cream (café/crema) → Estampado-apoyo-scaled.png (versión nueva del
+     bg-cream (café/crema) → Estampado-apoyo-scaled.webp (versión nueva del
        cliente), a pantalla completa sin repetir (background-size:cover) — el
        dibujo es un solo remolino de veta de madera a gran escala (piénsalo
        como una huella digital), no una textura pensada para mosaico; en
@@ -407,12 +407,12 @@
   pointer-events: none;
 }
 .bg-paper.cmj-pattern-bg::before {
-  background-image: url("/wp-content/uploads/2026/09/Elementos-de-Apoyo_Patron-scaled.png");
+  background-image: url("/wp-content/uploads/2026/09/Elementos-de-Apoyo_Patron-scaled.webp");
   background-repeat: repeat;
   background-size: 340px auto;
 }
 .bg-cream.cmj-pattern-bg::before {
-  background-image: url("/wp-content/uploads/2026/09/Estampado-apoyo-scaled.png");
+  background-image: url("/wp-content/uploads/2026/09/Estampado-apoyo-scaled.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
@@ -450,7 +450,7 @@
    Historial: primero un patrón "liquid" (PNG horneado desde un filtro SVG en
    vivo que causaba jank real en scroll, ~30ms/frame con picos de 300ms+),
    después un video de textura de madera — los dos se quitaron. Ahora es el
-   mismo estampado que las secciones bg-cream (Estampado-apoyo-scaled.png,
+   mismo estampado que las secciones bg-cream (Estampado-apoyo-scaled.webp,
    ver .bg-cream.cmj-pattern-bg), puesto vía cfg.footerPatternImgUrl porque
    Footer.js es React y no puede condicionarse a una clase de Tailwind como
    el resto de secciones PHP. */

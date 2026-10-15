@@ -10,7 +10,7 @@
  * TODO: conectar SEO Title / meta description a un plugin SEO (Yoast/RankMath) cuando se instale.
  *
  * Nota dev (brief): filtrado client-side con vanilla JS (sin componente React —
- * ver arquitectura del tema). Los 16 items ya tienen foto real (Pendiente #5
+ * ver arquitectura del tema). Los 23 items ya tienen foto real (Pendiente #5
  * del brief resuelto): mismas que usa cmj_service_images(), algunas del
  * slideshow del hero de Home, y el resto subidas directo a /uploads. Un item
  * sin la key 'img' cae en placeholder de textura de madera automáticamente
@@ -36,18 +36,25 @@ $gallery_items = array(
   array('category' => 'kitchens', 'title' => 'European Style Kitchen', 'img' => $service_images['kitchen']),
   array('category' => 'kitchens', 'title' => 'Kitchen Island', 'img' => content_url('/uploads/2026/09/KitchenIslandPantry-scaled.webp')),
   array('category' => 'kitchens', 'title' => 'European Style Kitchen', 'img' => content_url('/uploads/2026/09/ShakerStyleKitchen.webp')),
+  array('category' => 'kitchens', 'title' => 'Custom Kitchen with Island', 'img' => content_url('/uploads/2026/10/IMG_0001.webp')),
+  array('category' => 'kitchens', 'title' => 'Custom Painted Kitchen with Glass Doors', 'img' => content_url('/uploads/2026/10/IMG_8441-copy.webp')),
   array('category' => 'closets', 'title' => 'Walk-In Closet', 'img' => content_url('/uploads/2026/09/CMJHero1-scaled.webp')),
   array('category' => 'closets', 'title' => 'Custom Walk-In', 'img' => $service_images['closet']),
+  array('category' => 'closets', 'title' => 'Custom Walk-In Closet', 'img' => content_url('/uploads/2026/10/IMG_17781-scaled.webp')),
+  array('category' => 'closets', 'title' => 'Painted Walk-In Closet with Strip Lighting', 'img' => content_url('/uploads/2026/10/IMG_2536-scaled.webp')),
+  array('category' => 'closets', 'title' => 'Summer Breeze Walk-In Closet, Interior and Exterior, with Thermofoil Shaker Doors', 'img' => content_url('/uploads/2026/10/IMG_9736.webp')),
   array('category' => 'bars', 'title' => 'Home Bar &amp; Wine Storage', 'img' => $service_images['bar-cabinets']),
   array('category' => 'kitchens', 'title' => 'European Style Kitchen', 'img' => content_url('/uploads/2026/09/ButlersPantryBar-scaled.webp')),
   array('category' => 'vanities', 'title' => 'Bathroom Vanity', 'img' => $service_images['bathroom-vanity']),
   array('category' => 'more', 'title' => 'Custom Bench', 'img' => content_url('/uploads/2026/09/FloatingVanity-scaled.webp')),
-  array('category' => 'garages', 'title' => 'Garage Cabinets', 'img' => content_url('/uploads/2026/09/IMG_0103.jpg')),
+  array('category' => 'garages', 'title' => 'Garage Cabinets', 'img' => content_url('/uploads/2026/09/IMG_0103.webp')),
+  array('category' => 'garages', 'title' => 'Fluted Fronts in Natural Oak', 'img' => content_url('/uploads/2026/10/IMG_0080.webp')),
   array('category' => 'murphy-beds', 'title' => 'Murphy Bed &amp; Storage Cabinets', 'img' => $service_images['murphy-beds']),
   array('category' => 'more', 'title' => 'Display Cabinet', 'img' => content_url('/uploads/2026/09/GarageCabinets.webp')),
-  array('category' => 'more', 'title' => 'Mudroom', 'img' => content_url('/uploads/2026/09/IMG_7684.jpg')),
+  array('category' => 'more', 'title' => 'Laundry Room', 'img' => content_url('/uploads/2026/10/IMG_6792-scaled.webp')),
+  array('category' => 'more', 'title' => 'Mudroom', 'img' => content_url('/uploads/2026/09/IMG_7684.webp')),
   array('category' => 'more', 'title' => 'Entertainment Center', 'img' => $service_images['entertainment-centers']),
-  array('category' => 'more', 'title' => 'Home Office Built-Ins', 'img' => content_url('/uploads/2026/09/CMJHero2-scaled.webp')),
+  array('category' => 'more', 'title' => 'Home Office Built-Ins', 'img' => content_url('/uploads/2026/10/IMG_1950.webp')),
   array('category' => 'more', 'title' => 'Built-in &amp; Custom Desk with Strip Lighting', 'img' => content_url('/uploads/2026/09/CMJHero3-scaled.webp')),
 );
 

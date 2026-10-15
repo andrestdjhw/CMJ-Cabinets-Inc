@@ -47,11 +47,10 @@ get_header(); ?>
   <section class="bg-paper cmj-pattern-bg">
     <div class="max-w-3xl mx-auto px-4 py-16 sm:py-20 text-center">
       <p class="text-lg text-ink/75 leading-relaxed">
-        CMJ Cabinets began in 2007 with a simple idea: Los Angeles families deserve cabinetry made by real craftsmen, not mass-produced boxes.
-        What started as a small family shop is today a team of 13 designers, builders, and installers serving homeowners across Southern California.
-        But some things haven't changed: we still measure every space ourselves, build every cabinet in our own workshop, and stand behind every install with our name.
+        In 2007, our founder and CEO, Jesus Mendez, established CMJ Cabinets Inc. with a singular vision: to challenge the inflated pricing and outdated conventions that had long defined the cabinetry trade.
+        We believe your next cabinet should be far more than a functional necessity. It should be an expression of how you live, woven seamlessly into the character of your home.
+        Every piece we create is designed to exceed expectations, delivering timeless elegance with integrity, transparency, and fairness at its core.
       </p>
-      <!-- Nota dev: año de fundación (2007 vs 2008 en sitio actual) por confirmar — Pendiente #1 del brief. -->
     </div>
   </section>
 
@@ -105,7 +104,7 @@ get_header(); ?>
     <div class="max-w-7xl mx-auto px-4 py-16 sm:py-20 grid grid-cols-1 lg:grid-cols-2 gap-10 lg:min-h-130">
       <div class="rounded-md overflow-hidden order-2 lg:order-1 h-72 sm:h-96 lg:h-130">
         <img
-          src="<?php echo esc_url(content_url('/uploads/2026/09/CMJ_Office.png')); ?>"
+          src="<?php echo esc_url(content_url('/uploads/2026/09/CMJ_Office.webp')); ?>"
           alt="CMJ Cabinets workshop"
           loading="lazy"
           class="w-full h-full object-cover"
@@ -135,7 +134,7 @@ get_header(); ?>
         $pillars = array(
           array(
             'title' => 'Our Mission',
-            'copy' => "At CMJ Cabinets, Inc., our mission is to redefine luxury cabinetry by seamlessly integrating innovative design, superior craftsmanship, and personalized service to exceed our customers' expectations.",
+            'copy' => 'At CMJ Cabinets Inc., we design, manufacture, and install with precision, integrity, and family care, building excellence that endures.',
           ),
           array(
             'title' => 'Our Vision',
@@ -143,7 +142,7 @@ get_header(); ?>
           ),
           array(
             'title' => 'Our Values',
-            'copy' => 'Craftsmanship, integrity, and family values — delivered honestly, owned fully, and care for every home we touch.',
+            'copy' => 'Expert craftsmanship, honest communication, and the care your home deserves.',
           ),
         );
         foreach ($pillars as $pillar) : ?>

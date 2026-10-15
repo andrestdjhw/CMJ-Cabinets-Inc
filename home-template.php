@@ -29,11 +29,13 @@ get_header(); ?>
   <section class="relative overflow-hidden flex flex-col min-h-[calc(100vh-120px)]">
     <?php
     $hero_slides = array(
-      content_url('/uploads/2026/09/CMJHero1-scaled.webp'),
-      content_url('/uploads/2026/09/CMJHero2-scaled.webp'),
-      content_url('/uploads/2026/09/CMJHero3-scaled.webp'),
-      content_url('/uploads/2026/09/CMJHero4.webp'),
-      content_url('/uploads/2026/09/CMJHero5-scaled.webp'),
+      // Fotos elegidas por el cliente (Final Website Adjustments #1) — reemplazan
+      // las 5 CMJHero anteriores.
+      content_url('/uploads/2026/10/IMG_8440.webp'),
+      content_url('/uploads/2026/10/IMG_0001.webp'),
+      content_url('/uploads/2026/10/IMG_1950.webp'),
+      content_url('/uploads/2026/10/IMG_9736.webp'),
+      content_url('/uploads/2026/10/IMG_6241.webp'),
     );
     ?>
     <div class="absolute inset-0 -z-20" aria-hidden="true">
@@ -396,7 +398,7 @@ get_header(); ?>
        pantalla mientras está pegada, ahora que la lista tiene 9 pasos. -->
   <section
     class="cmj-method-section relative overflow-clip bg-ink bg-cover bg-center"
-    style="background-image: url('<?php echo esc_url(get_theme_file_uri('/assets/process-bg.png')); ?>');"
+    style="background-image: url('<?php echo esc_url(get_theme_file_uri('/assets/process-bg.webp')); ?>');"
   >
     <!-- Fondo horneado a UNA sola imagen estática (degradado Roble Ahumado →
          Fresno + estampado + el scrim oscuro que necesita el texto claro para
@@ -547,7 +549,7 @@ get_header(); ?>
         <?php
         $gallery_teaser = array(
           array('img' => content_url('/uploads/2026/09/CMJHero1-1152x1536.webp'), 'title' => 'Walk-In Closet System'),
-          array('img' => content_url('/uploads/2026/09/CMJHero2-1152x1536.webp'), 'title' => 'Home Office Built-Ins'),
+          array('img' => content_url('/uploads/2026/10/IMG_1950.webp'), 'title' => 'Home Office Built-Ins'),
           array('img' => content_url('/uploads/2026/09/GarageCabinets.webp'), 'title' => 'Display Cabinet'),
           array('img' => content_url('/uploads/2026/09/CMJHero3-743x1024.webp'), 'title' => 'Built-in &amp; Custom Desk with Strip Lighting'),
           array('img' => $service_images['murphy-beds'], 'title' => 'Murphy Bed &amp; Storage Cabinets'),

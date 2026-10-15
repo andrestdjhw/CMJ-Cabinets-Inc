@@ -175,7 +175,7 @@ get_header(); ?>
        pantalla mientras está pegada, ahora que la lista tiene 9 pasos. -->
   <section
     class="cmj-method-section relative overflow-clip bg-ink bg-cover bg-center"
-    style="background-image: url('<?php echo esc_url(get_theme_file_uri('/assets/process-bg.png')); ?>');"
+    style="background-image: url('<?php echo esc_url(get_theme_file_uri('/assets/process-bg.webp')); ?>');"
   >
     <div class="relative mx-auto grid max-w-7xl gap-14 px-4 py-16 sm:py-20 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
 

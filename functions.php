@@ -15,7 +15,7 @@ function cmj_service_images() {
       'closet'                => $base . 'CustomClosets-scaled.webp',
       'bar-cabinets'          => $base . 'BarCabinets.webp',
       'bathroom-vanity'       => $base . 'BathroomVanities-scaled.webp',
-      'garages'               => $base . 'IMG_0570-scaled.jpg',
+      'garages'               => $base . 'IMG_0570-scaled.webp',
       'murphy-beds'           => $base . 'MurphyBeds-scaled.webp',
       'laundry-room'          => $base . 'LaundryRoom.webp',
       'entertainment-centers' => $base . 'EntertaimentCenters-scaled.webp',
@@ -49,9 +49,9 @@ function cmj_service_details() {
         // grid debajo de los features (ver service-template.php). Pedido del
         // cliente: más ejemplos de cocinas en esta página.
         'gallery' => array(
-          array('img' => content_url('/uploads/2026/09/NewKitchen-scaled.png'), 'title' => 'Custom Kitchen'),
-          array('img' => content_url('/uploads/2026/09/NewKitchen2.jpg'), 'title' => 'Custom Kitchen'),
-          array('img' => content_url('/uploads/2026/09/NewKitchen3.jpg'), 'title' => 'Custom Kitchen'),
+          array('img' => content_url('/uploads/2026/09/NewKitchen-scaled.webp'), 'title' => 'Custom Kitchen'),
+          array('img' => content_url('/uploads/2026/09/NewKitchen2.webp'), 'title' => 'Custom Kitchen'),
+          array('img' => content_url('/uploads/2026/09/NewKitchen3.webp'), 'title' => 'Custom Kitchen'),
         ),
         'faqs' => array(
           array('q' => 'Can you work around my existing kitchen layout?', 'a' => "Yes — we design around your existing plumbing, electrical, and footprint unless you're doing a full remodel."),
@@ -240,20 +240,20 @@ function cmj_process_steps() {
   static $steps = null;
   if ($steps === null) {
     $up      = content_url('/uploads/2026/09/');
-    $design  = $up . 'Design1-scaled.jpg';
+    $design  = $up . 'Design1-scaled.webp';
     $build   = $up . 'Build-scaled.webp';
-    $install = $up . 'Installing-scaled.jpg';
+    $install = $up . 'Installing-scaled.webp';
     $steps = array(
       array(
         'title' => 'Intro Call',
         'copy'  => 'Tell us about your project in a quick call: your space, your style, your timeline, and your budget.',
-        'image' => $up . 'IntroCall-scaled.jpg',
+        'image' => $up . 'IntroCall-scaled.webp',
         'icon'  => '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.6 2z"/>',
       ),
       array(
         'title' => 'Site Visit',
         'copy'  => 'We visit your home, take exact measurements, and see the space firsthand.',
-        'image' => $up . 'SiteVisit-scaled.jpg',
+        'image' => $up . 'SiteVisit-scaled.webp',
         'icon'  => '<path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/>',
       ),
       array(
@@ -265,13 +265,13 @@ function cmj_process_steps() {
       array(
         'title' => 'Approval',
         'copy'  => 'You review the design and quote, request any changes, and sign off once everything is exactly right.',
-        'image' => $up . 'Approval-scaled.jpg',
+        'image' => $up . 'Approval-scaled.webp',
         'icon'  => '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="m9 15 2 2 4-4"/>',
       ),
       array(
         'title' => 'Deposit',
         'copy'  => 'A deposit locks in your project and reserves your spot in our production schedule.',
-        'image' => $up . 'Deposit-scaled.jpg',
+        'image' => $up . 'Deposit-scaled.webp',
         'icon'  => '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
       ),
       array(
@@ -289,13 +289,13 @@ function cmj_process_steps() {
       array(
         'title' => 'Walk Through',
         'copy'  => 'We walk through the finished project with you, detail by detail, to make sure everything is perfect.',
-        'image' => $up . 'Walkthrough-scaled.jpg',
+        'image' => $up . 'Walkthrough-scaled.webp',
         'icon'  => '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
       ),
       array(
         'title' => 'Final Payment',
         'copy'  => "Once you're completely happy with the result, the final payment closes out your project.",
-        'image' => $up . 'FinalPayment-scaled.jpg',
+        'image' => $up . 'FinalPayment-scaled.webp',
         'icon'  => '<circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.3 2.3L15.5 9.5"/>',
       ),
     );
@@ -335,7 +335,7 @@ function cmj_config() {
       // .bg-cream.cmj-pattern-bg en index.css) — expuesto acá también porque el
       // footer es un componente React (Footer.js), no puede usar url() de CSS
       // condicionado a una clase Tailwind como el resto de secciones PHP.
-      'footerPatternImgUrl' => content_url('/uploads/2026/09/Estampado-apoyo-scaled.png'),
+      'footerPatternImgUrl' => content_url('/uploads/2026/09/Estampado-apoyo-scaled.webp'),
       'phone'    => '(323) 971-1543',
       'phoneRaw' => '+13239711543',
       'email'    => 'info@cmjcabinets.com', // TODO: confirmar email real del cliente (Pendiente #3 del brief)
