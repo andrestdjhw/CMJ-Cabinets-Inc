@@ -171,7 +171,7 @@ get_header(); ?>
   <!-- overflow-clip (no overflow-hidden): overflow-hidden convierte a la
        sección en el contenedor de referencia del sticky y la columna
        izquierda dejaba de seguir el scroll. La foto toma su alto del viewport
-       (lg:h-[calc(100vh-29rem)]) para que la columna completa quepa en
+       (lg:h-[calc(100vh-33rem)]) para que la columna completa quepa en
        pantalla mientras está pegada, ahora que la lista tiene 9 pasos. -->
   <section
     class="cmj-method-section relative overflow-clip bg-ink bg-cover bg-center"
@@ -194,7 +194,19 @@ get_header(); ?>
           <span class="shrink-0 text-xs tracking-[0.16em] text-cream/60"><span class="cmj-method__counter text-paper">01</span> / <?php echo esc_html(sprintf('%02d', $process_total)); ?></span>
         </div>
 
-        <div class="cmj-method__media relative mt-10 hidden aspect-4/5 lg:aspect-auto lg:h-[calc(100vh-29rem)] lg:min-h-64 overflow-hidden rounded-md border border-paper/15 lg:block">
+        <!-- PDF descargable del proceso (pedido del cliente). URL en cmj_config()['processPdfUrl']. -->
+        <a
+          href="<?php echo esc_url($cfg['processPdfUrl']); ?>"
+          download
+          target="_blank"
+          rel="noopener"
+          class="mt-6 inline-flex items-center gap-2 rounded-md border border-paper/30 bg-paper/5 px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-paper hover:border-tan hover:text-tan transition-colors"
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Download Our Process (PDF)
+        </a>
+
+        <div class="cmj-method__media relative mt-10 hidden aspect-4/5 lg:aspect-auto lg:h-[calc(100vh-33rem)] lg:min-h-64 overflow-hidden rounded-md border border-paper/15 lg:block">
           <span class="pointer-events-none absolute left-0 top-0 z-10 h-7 w-7 border-l-2 border-t-2 border-paper"></span>
           <span class="pointer-events-none absolute bottom-0 right-0 z-10 h-7 w-7 border-b-2 border-r-2 border-paper"></span>
           <?php foreach ($process_steps as $i => $step) : if (empty($step['image'])) continue; ?>

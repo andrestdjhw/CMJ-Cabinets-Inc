@@ -240,7 +240,7 @@ function cmj_process_steps() {
   static $steps = null;
   if ($steps === null) {
     $up      = content_url('/uploads/2026/09/');
-    $design  = $up . 'Design1-scaled.webp';
+    $up10    = content_url('/uploads/2026/10/');
     $build   = $up . 'Build-scaled.webp';
     $install = $up . 'Installing-scaled.webp';
     $steps = array(
@@ -259,7 +259,7 @@ function cmj_process_steps() {
       array(
         'title' => 'Design with Quote',
         'copy'  => 'We design your project with you (layout, materials, and finishes) and deliver a clear quote with mock-ups.',
-        'image' => $design,
+        'image' => $up10 . 'process-deisgn.webp',
         'icon'  => '<path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>',
       ),
       array(
@@ -271,7 +271,7 @@ function cmj_process_steps() {
       array(
         'title' => 'Deposit',
         'copy'  => 'A deposit locks in your project and reserves your spot in our production schedule.',
-        'image' => $up . 'Deposit-scaled.webp',
+        'image' => $up10 . 'process-deposit.webp',
         'icon'  => '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>',
       ),
       array(
@@ -289,13 +289,13 @@ function cmj_process_steps() {
       array(
         'title' => 'Walk Through',
         'copy'  => 'We walk through the finished project with you, detail by detail, to make sure everything is perfect.',
-        'image' => $up . 'Walkthrough-scaled.webp',
+        'image' => $up . 'FinalPayment-scaled.webp', // antes la foto de Final Payment (pedido del cliente)
         'icon'  => '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
       ),
       array(
         'title' => 'Final Payment',
         'copy'  => "Once you're completely happy with the result, the final payment closes out your project.",
-        'image' => $up . 'FinalPayment-scaled.webp',
+        'image' => $up10 . 'process-final-payment.webp',
         'icon'  => '<circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.3 2.3L15.5 9.5"/>',
       ),
     );
@@ -350,6 +350,8 @@ function cmj_config() {
       // terms-conditions-template.php.
       'privacyUrl' => home_url('/privacy-policy/'),
       'termsUrl'   => home_url('/terms-and-conditions/'),
+      // PDF descargable de "Our Process" (botón en la sección de proceso de Home y servicios).
+      'processPdfUrl' => content_url('/uploads/2026/10/our-process.pdf'),
       'ctaLabel' => 'Free Estimate',
       'ctaHover' => "Let's Talk",
       'ctaVideoUrl' => content_url('/uploads/2026/09/VideoBackgroundCMJ.mp4'), // fondo de la cinta CTA final, en todas las páginas
