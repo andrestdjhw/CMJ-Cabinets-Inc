@@ -42,6 +42,7 @@ get_header(); ?>
           <li>Your name</li>
           <li>Phone number and email address</li>
           <li>The type of project you're interested in</li>
+          <li>The ZIP code where your project is located</li>
           <li>Any details you include in your message (for example, your address or photos of your space)</li>
         </ul>
         <p><strong>Information collected automatically.</strong> Like most websites, our hosting provider automatically records basic technical information when you visit, such as your IP address, browser type, device type, pages visited, and the date and time of your visit. This information is used to keep the website secure and working properly.</p>
@@ -76,8 +77,14 @@ get_header(); ?>
         </ul>
         <p>Our website also links to our profiles on Facebook, Instagram, TikTok, Google, and the Better Business Bureau. When you visit those sites, their own privacy policies apply.</p>
 
-        <h2>5. Cookies</h2>
-        <p>Our website does not use advertising or tracking cookies of its own. Some of the third-party services listed above (such as embedded Google Maps) may set their own cookies when their content loads. You can block or delete cookies through your browser settings; the website will continue to work, although some embedded content may not display.</p>
+        <h2 id="cookies">5. Cookies</h2>
+        <p>When you first visit our website, a banner asks for your cookie preferences. We use two categories:</p>
+        <ul>
+          <li><strong>Strictly Necessary.</strong> A single cookie (<code>cmj_consent</code>) that remembers your choice for 6 months. It is required for the website to work and is always active.</li>
+          <li><strong>Third-Party Content.</strong> The Google Maps shown on our Home, Contact, and Locations pages. Google may set its own cookies when a map loads, so <strong>maps stay blocked until you allow this category</strong>, either by clicking "Accept All" or "Show Map," or in Cookie Settings.</li>
+        </ul>
+        <p>We do not use analytics, advertising, or tracking cookies. Our Google reviews widget and fonts load from third-party servers (Trustindex and Google Fonts) but do not require this consent.</p>
+        <p>You can change your choice at any time using the <a href="#" data-cmj-cookie-settings>Cookie Settings</a> link at the bottom of every page, or delete cookies through your browser settings.</p>
 
         <h2>6. Data Retention</h2>
         <p>We keep the information you send us for as long as needed to respond to you, complete your project, provide after-sale service, and meet our legal, tax, and licensing record-keeping obligations. After that, we delete it or keep it in a form that no longer identifies you.</p>

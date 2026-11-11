@@ -626,13 +626,7 @@ get_header(); ?>
 
     <div class="relative max-w-6xl mx-auto px-4 mt-10">
       <div class="h-80 sm:h-112 overflow-hidden rounded-md border border-paper/15 shadow-2xl">
-        <iframe
-          src="<?php echo esc_url($cfg['mapsEmbedUrl']); ?>"
-          class="w-full h-full border-0"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="CMJ Cabinets service area map"
-        ></iframe>
+        <?php echo cmj_consent_map($cfg['mapsEmbedUrl'], 'CMJ Cabinets service area map'); // bloqueado hasta consentimiento de cookies ?>
       </div>
     </div>
 

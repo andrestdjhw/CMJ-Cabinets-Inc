@@ -4,6 +4,7 @@ import {
   FacebookIcon, InstagramIcon, TikTokIcon, BbbIcon, GmbIcon,
 } from "./Icons"
 import { NAV_ITEMS } from "./navigation"
+import { openCookieSettings } from "./consent"
 
 const cfg = window.cmjConfig || {}
 
@@ -148,10 +149,12 @@ function Footer() {
         <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col sm:grid sm:grid-cols-3 items-center gap-2 text-xs text-cream/50">
           <div className="sm:justify-self-start flex flex-col items-center sm:items-start gap-1">
             <p>&copy; {year} CMJ Cabinets, Inc. All rights reserved.</p>
-            <p className="flex items-center gap-2">
+            <p className="flex flex-wrap items-center justify-center sm:justify-start gap-x-2 gap-y-1">
               <a href={cfg.privacyUrl || "/privacy-policy/"} className="hover:text-tan transition-colors">Privacy Policy</a>
               <span aria-hidden="true">·</span>
               <a href={cfg.termsUrl || "/terms-and-conditions/"} className="hover:text-tan transition-colors">Terms &amp; Conditions</a>
+              <span aria-hidden="true">·</span>
+              <button type="button" onClick={openCookieSettings} className="hover:text-tan transition-colors">Cookie Settings</button>
             </p>
           </div>
           <a

@@ -184,6 +184,37 @@ function cmj_service_details() {
 }
 
 /**
+ * Mapa de Google embebido, bloqueado hasta que el visitante acepta "Third-Party
+ * Content" en el banner de cookies (ver src/scripts/consent.js). El iframe sale
+ * SIN src (no se conecta a Google) y con data-cmj-consent-src; consent.js le
+ * asigna el src y quita el placeholder cuando hay consentimiento. El botón
+ * "Show Map" del placeholder da ese consentimiento directo.
+ * El contenedor padre define el tamaño (el mapa ocupa w-full h-full).
+ */
+function cmj_consent_map($src, $title) {
+  ob_start(); ?>
+  <div class="relative w-full h-full">
+    <iframe
+      data-cmj-consent-src="<?php echo esc_url($src); ?>"
+      class="w-full h-full border-0"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      title="<?php echo esc_attr($title); ?>"
+    ></iframe>
+    <div class="cmj-consent-placeholder absolute inset-0 flex flex-col items-center justify-center gap-3 bg-cream px-6 text-center">
+      <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" class="text-tan-2" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <p class="max-w-xs text-sm leading-relaxed text-ink/75">This map is provided by Google, which may set cookies when it loads.</p>
+      <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+        <button type="button" data-cmj-consent-allow class="rounded-md bg-linear-to-b from-tan to-tan-2 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-paper hover:from-ink hover:to-ink transition-colors">Show Map</button>
+        <button type="button" data-cmj-cookie-settings class="text-xs font-semibold uppercase tracking-[0.08em] text-ink/70 underline underline-offset-4 hover:text-tan-2">Cookie Settings</button>
+      </div>
+    </div>
+  </div>
+  <?php
+  return ob_get_clean();
+}
+
+/**
  * FAQs genéricas de la empresa (para las específicas de cada servicio, ver
  * cmj_service_details()[slug]['faqs']). Vivían hardcodeadas en el S10 de
  * home-template.php; ahora un array central para que about-template.php

@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client"
 import Navbar from "./scripts/Navbar"
 import Footer from "./scripts/Footer"
 import ContactForm from "./scripts/ContactForm"
+import CookieConsent from "./scripts/CookieConsent"
+import { initConsent } from "./scripts/consent"
 
 const navbarMount = document.querySelector("#cmj-navbar")
 if (navbarMount) {
@@ -12,6 +14,15 @@ if (navbarMount) {
 const footerMount = document.querySelector("#cmj-footer")
 if (footerMount) {
   ReactDOM.createRoot(footerMount).render(<Footer />)
+}
+
+// Banner + modal de cookies (ver CookieConsent.js / consent.js). initConsent()
+// carga los mapas de Google si ya hay consentimiento y engancha los botones
+// "Show Map" / "Cookie Settings" que vienen en el HTML de PHP.
+initConsent()
+const cookieConsentMount = document.querySelector("#cmj-cookie-consent")
+if (cookieConsentMount) {
+  ReactDOM.createRoot(cookieConsentMount).render(<CookieConsent />)
 }
 
 const contactFormMount = document.querySelector("#cmj-contact-form")

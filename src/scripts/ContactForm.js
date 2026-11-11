@@ -13,12 +13,14 @@ const PROJECT_TYPES = (SERVICES_ITEM ? SERVICES_ITEM.children : []).concat([
 ])
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const ZIP_RE = /^\d{5}(-\d{4})?$/ // ZIP de EE. UU.: 90043 o 90043-1234
 
 const initialFields = {
   name: "",
   phone: "",
   email: "",
   projectType: "",
+  zip: "",
   message: "",
   website: "", // honeypot: campo invisible para humanos, si llega lleno es un bot
 }
@@ -31,6 +33,11 @@ function validate(fields) {
     errors.email = "Please enter your email."
   } else if (!EMAIL_RE.test(fields.email.trim())) {
     errors.email = "That email doesn't look right."
+  }
+  if (!fields.zip.trim()) {
+    errors.zip = "Please enter your project's ZIP code."
+  } else if (!ZIP_RE.test(fields.zip.trim())) {
+    errors.zip = "Please enter a valid 5-digit ZIP code."
   }
   if (!fields.message.trim()) errors.message = "Tell us a bit about your project."
   return errors
@@ -124,6 +131,9 @@ function ContactForm({ variant = "light" }) {
       phone: fields.phone,
       email: fields.email,
       project_type: fields.projectType || "(not specified)",
+      // Pedido del cliente: ZIP del proyecto (para saber si cae en el radio de
+      // servicio). Las plantillas de EmailJS deben incluir {{zip_code}}.
+      zip_code: fields.zip.trim(),
       message: fields.message,
     }
 
@@ -222,22 +232,42 @@ function ContactForm({ variant = "light" }) {
           </Field>
         </div>
 
-        <Field id="cmj-cf-project" label="Project Type (optional)" t={t}>
-          <select
-            id="cmj-cf-project"
-            name="projectType"
-            value={fields.projectType}
-            onChange={onChange}
-            className={t.input + " appearance-none"}
-          >
-            <option className="text-ink" value="">Select a project type</option>
-            {PROJECT_TYPES.map((p) => (
-              <option className="text-ink" key={p.slug} value={p.label}>
-                {p.label}
-              </option>
-            ))}
-          </select>
-        </Field>
+        {/* Project Type + ZIP en la misma fila (mismo patrón que Phone/Email). */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <Field id="cmj-cf-project" label="Project Type (optional)" t={t}>
+            <select
+              id="cmj-cf-project"
+              name="projectType"
+              value={fields.projectType}
+              onChange={onChange}
+              className={t.input + " appearance-none"}
+            >
+              <option className="text-ink" value="">Select a project type</option>
+              {PROJECT_TYPES.map((p) => (
+                <option className="text-ink" key={p.slug} value={p.label}>
+                  {p.label}
+                </option>
+              ))}
+            </select>
+          </Field>
+
+          <Field id="cmj-cf-zip" label="Project ZIP Code" error={errors.zip} t={t}>
+            <input
+              id="cmj-cf-zip"
+              name="zip"
+              type="text"
+              inputMode="numeric"
+              autoComplete="postal-code"
+              maxLength={10}
+              value={fields.zip}
+              onChange={onChange}
+              aria-invalid={Boolean(errors.zip)}
+              aria-describedby={errors.zip ? "cmj-cf-zip-error" : undefined}
+              className={t.input}
+              placeholder="90043"
+            />
+          </Field>
+        </div>
 
         <Field id="cmj-cf-message" label="Tell Us About Your Project" error={errors.message} t={t}>
           <textarea

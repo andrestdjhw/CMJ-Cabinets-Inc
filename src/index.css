@@ -601,6 +601,26 @@
   }
 }
 
+/* ===== Banner / modal de cookies (CookieConsent.js) — entrada suave ===== */
+.cmj-cookie-in {
+  animation: cmj-cookie-in 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+@keyframes cmj-cookie-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cmj-cookie-in {
+    animation: none;
+  }
+}
+
 /* ===== Fondo de coming-soon-template.php =====
    Zoom in / zoom out continuo (alternate): a diferencia del Ken Burns del
    hero (una sola pasada por foto), acá hay una sola foto fija y el

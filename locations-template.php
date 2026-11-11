@@ -116,13 +116,7 @@ get_header(); ?>
           <div class="relative cmj-form-levitate">
             <div class="rounded-md border border-ink/10 overflow-hidden">
               <div class="aspect-video">
-                <iframe
-                  src="<?php echo esc_url('https://maps.google.com/maps?q=' . rawurlencode($location['mapQuery']) . '&output=embed'); ?>"
-                  class="w-full h-full border-0"
-                  loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"
-                  title="<?php echo esc_attr($location['county']); ?> map"
-                ></iframe>
+                <?php echo cmj_consent_map('https://maps.google.com/maps?q=' . rawurlencode($location['mapQuery']) . '&output=embed', $location['county'] . ' map'); // bloqueado hasta consentimiento de cookies ?>
               </div>
               <div class="p-6 bg-linear-to-b from-paper to-silver/20">
                 <h3 class="text-xl font-semibold text-ink"><?php echo esc_html($location['county']); ?></h3>

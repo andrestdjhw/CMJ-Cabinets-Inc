@@ -116,13 +116,7 @@ get_header(); ?>
         <!-- Mapa, más grande -->
         <div class="relative cmj-form-levitate order-2 lg:order-1">
           <div class="h-80 sm:h-104 overflow-hidden rounded-md">
-            <iframe
-              src="<?php echo esc_url($cfg['mapsEmbedUrl']); ?>"
-              class="w-full h-full border-0"
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
-              title="CMJ Cabinets location map"
-            ></iframe>
+            <?php echo cmj_consent_map($cfg['mapsEmbedUrl'], 'CMJ Cabinets location map'); // bloqueado hasta consentimiento de cookies ?>
           </div>
           <div class="cmj-form-shadow" aria-hidden="true"></div>
         </div>
